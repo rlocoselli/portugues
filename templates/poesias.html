@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{{ ui.poetry_title }} — {{ ui.site_title }}{% endblock %}
+
+{% block content %}
+<section class="poetry-hero">
+  <span class="poetry-hero-mark" aria-hidden="true">✳</span>
+  <p class="hero-kicker">🇧🇷 {{ ui.site_title }} · PALAVRAS EM MOVIMENTO</p>
+  <h1>{{ ui.poetry_title }}</h1>
+  <p>{{ ui.poetry_subtitle }}</p>
+</section>
+
+<section class="poetry-intro">
+  <span class="poetry-intro-icon" aria-hidden="true">✍️</span>
+  <p>{{ ui.poetry_original_note }}. {{ ui.poetry_intro_note }}</p>
+</section>
+
+<div class="poetry-grid">
+  {% for item in poesias %}
+  <article class="poem-card">
+    <div class="poem-card-top">
+      <span class="poem-emoji" aria-hidden="true">{{ item.emoji }}</span>
+      <span class="poem-theme">{{ item['tema_' ~ lang] }}</span>
+    </div>
+    <h2><a href="{{ url_for('poesia', slug=item.slug) }}">{{ item['titulo_' ~ lang] }}</a></h2>
+    <div class="poem-card-lines" lang="pt">
+      {% for line in item.estrofes_pt[0] %}<span>{{ line }}</span>{% endfor %}
+    </div>
+    <a class="poem-link" href="{{ url_for('poesia', slug=item.slug) }}">{{ ui.poetry_read }} <span aria-hidden="true">→</span></a>
+  </article>
+  {% endfor %}
+</div>
+{% endblock %}

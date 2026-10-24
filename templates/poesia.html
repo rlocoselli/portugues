@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{{ poesia['titulo_' ~ lang] }} — {{ ui.poetry_title }}{% endblock %}
+
+{% block content %}
+<a class="back" href="{{ url_for('poesias') }}">← {{ ui.poetry_back }}</a>
+
+<article class="poem-page">
+  <header class="poem-page-header">
+    <span class="poem-page-emoji" aria-hidden="true">{{ poesia.emoji }}</span>
+    <p class="poem-theme">{{ poesia['tema_' ~ lang] }}</p>
+    <h1>{{ poesia['titulo_' ~ lang] }}</h1>
+    <p class="poem-original-note">{{ ui.poetry_original_note }}</p>
+  </header>
+
+  <section class="poem-reading" lang="pt">
+    <h2>{{ ui.poetry_portuguese }} 🇧🇷</h2>
+    {% for stanza in poesia.estrofes_pt %}
+    <p class="poem-stanza">
+      {% for line in stanza %}<span>{{ line }}</span>{% endfor %}
+    </p>
+    {% endfor %}
+  </section>
+
+  <details class="translation-panel poem-translation">
+    <summary><span>🇫🇷 {{ ui.poetry_french }}</span><span class="translation-action">{{ ui.poetry_translation_action }}</span></summary>
+    <section class="poem-reading poem-reading-fr" lang="fr">
+      {% for stanza in poesia.estrofes_fr %}
+      <p class="poem-stanza">
+        {% for line in stanza %}<span>{{ line }}</span>{% endfor %}
+      </p>
+      {% endfor %}
+    </section>
+  </details>
+</article>
+{% endblock %}

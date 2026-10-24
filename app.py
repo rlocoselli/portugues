@@ -11,6 +11,7 @@ import glob
 from flask import Flask, render_template, request, redirect, url_for, session, abort, send_file, Response
 
 from data.textos import TEXTOS, CATEGORIAS, NIVEIS
+from data.poesias import POESIAS
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "aprender-portugues-brasil-2024")
@@ -33,6 +34,16 @@ UI = {
         "creator_role": "Professor de português e desenvolvedor de software",
         "nav_home": "Início",
         "nav_about": "Sobre",
+        "nav_poetry": "Poesias",
+        "poetry_title": "Poesias brasileiras",
+        "poetry_subtitle": "Poemas originais em português, inspirados nas paisagens, nos encontros e nos muitos Brasis do cotidiano.",
+        "poetry_read": "Ler poema",
+        "poetry_back": "Voltar às poesias",
+        "poetry_portuguese": "Poema em português",
+        "poetry_french": "Tradução em francês",
+        "poetry_translation_action": "Abrir tradução",
+        "poetry_original_note": "Poema original do Fala Brasil",
+        "poetry_intro_note": "Leia os versos em voz alta e descubra a tradução quando quiser.",
         "hero_title": "Seu próximo destino: o português do Brasil",
         "hero_subtitle": "Viaje por histórias, paisagens e sabores brasileiros. Leia no seu ritmo, escute a pronúncia e descubra cada texto também em francês.",
         "search_placeholder": "Buscar por título ou palavra...",
@@ -77,6 +88,16 @@ UI = {
         "creator_role": "Professeur de portugais et développeur de logiciels",
         "nav_home": "Accueil",
         "nav_about": "À propos",
+        "nav_poetry": "Poèmes",
+        "poetry_title": "Poésie brésilienne",
+        "poetry_subtitle": "Des poèmes originaux en portugais, inspirés par les paysages, les rencontres et les multiples Brésils du quotidien.",
+        "poetry_read": "Lire le poème",
+        "poetry_back": "Retour aux poèmes",
+        "poetry_portuguese": "Poème en portugais",
+        "poetry_french": "Traduction française",
+        "poetry_translation_action": "Afficher la traduction",
+        "poetry_original_note": "Poème original de Fala Brasil",
+        "poetry_intro_note": "Lisez les vers à voix haute et ouvrez la traduction quand vous le souhaitez.",
         "hero_title": "Prochaine destination : le portugais du Brésil",
         "hero_subtitle": "Partez à la découverte des histoires, paysages et saveurs du Brésil. Lisez à votre rythme, écoutez la prononciation et retrouvez chaque texte en français.",
         "search_placeholder": "Rechercher un titre ou un mot...",
@@ -291,6 +312,19 @@ def foto_rodrigo():
 @app.route("/sobre")
 def sobre():
     return render_template("sobre.html")
+
+
+@app.route("/poesias")
+def poesias():
+    return render_template("poesias.html", poesias=POESIAS)
+
+
+@app.route("/poesia/<slug>")
+def poesia(slug):
+    item = next((p for p in POESIAS if p["slug"] == slug), None)
+    if item is None:
+        abort(404)
+    return render_template("poesia.html", poesia=item)
 
 
 @app.route("/lang/<l>")

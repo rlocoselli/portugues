@@ -1,7 +1,8 @@
 # Fala Brasil — Aprender Português / Apprendre le portugais
 
 Site bilíngue (português / francês) para aprender português com textos sobre o
-Brasil (natureza, história, geografia e cultura). Cada texto inclui:
+Brasil (natureza, história, geografia, cultura e ciência), além de uma seção de
+poesias originais em português com traduções para o francês. Cada texto inclui:
 
 - o texto em português;
 - a tradução em francês;
@@ -51,7 +52,8 @@ na página inicial, nos filtros e na busca.
 ```
 app.py                  # aplicação Flask (rotas e textos da interface)
 data/textos.py          # banco de textos (sem banco de dados)
-templates/              # páginas HTML (base, index, texto, sobre, 404)
+data/poesias.py         # poemas originais em português e traduções francesas
+templates/              # páginas HTML (base, index, textos, poesias, sobre, 404)
 static/css/style.css    # estilos
 static/js/tts.js        # reprodução de áudio (player + frases/palavras clicáveis)
 static/js/quiz.js       # correção e pontuação dos quizzes de compreensão
