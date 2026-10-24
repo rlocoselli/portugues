@@ -22,6 +22,7 @@ CAPA_TEMAS = {
     "historia": ("#012169", "#0a3d91"),
     "geografia": ("#0e7490", "#065f46"),
     "cultura": ("#f59e0b", "#b45309"),
+    "ciencia": ("#0f766e", "#164e63"),
 }
 
 # Textos da interface do usuário (i18n).

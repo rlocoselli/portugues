@@ -35,7 +35,7 @@ Basta copiar um bloco existente e preencher os campos:
 | Campo          | Descrição                                                    |
 | -------------- | ------------------------------------------------------------ |
 | `slug`         | Identificador único (letras minúsculas e hífens).            |
-| `categoria`    | `natureza`, `historia`, `geografia` ou `cultura`.            |
+| `categoria`    | `natureza`, `historia`, `geografia`, `cultura` ou `ciencia`. |
 | `nivel`        | `iniciante`, `intermediario` ou `avancado`.                   |
 | `titulo_pt`    | Título em português.                                         |
 | `titulo_fr`    | Título em francês.                                           |

@@ -7,7 +7,7 @@ COMO ADICIONAR UM NOVO TEXTO (sem banco de dados):
 2) Copie um dos blocos de dicionário abaixo e cole antes do último "]" da lista TEXTOS.
 3) Preencha os campos:
    - slug: identificador único (somente letras minúsculas e hífens).
-   - categoria: "natureza", "historia", "geografia" ou "cultura".
+   - categoria: "natureza", "historia", "geografia", "cultura" ou "ciencia".
    - nivel: "iniciante", "intermediario" ou "avancado".
    - emoji: um emoji que representa o tema (usado na imagem de capa).
    - titulo_pt / titulo_fr: título em português e em francês.
@@ -21,6 +21,7 @@ CATEGORIAS = [
     {"slug": "historia", "pt": "História", "fr": "Histoire"},
     {"slug": "geografia", "pt": "Geografia", "fr": "Géographie"},
     {"slug": "cultura", "pt": "Cultura", "fr": "Culture"},
+    {"slug": "ciencia", "pt": "Ciência", "fr": "Science"},
 ]
 
 NIVEIS = [
@@ -1027,4 +1028,340 @@ TEXTOS = [
             {"pt": "fazenda", "fr": "plantation"},
         ],
     },
+{'slug': 'literatura-brasileira',
+ 'categoria': 'cultura',
+ 'nivel': 'intermediario',
+ 'emoji': '📚',
+ 'titulo_pt': 'Uma viagem pela literatura brasileira',
+ 'titulo_fr': 'Un voyage dans la littérature brésilienne',
+ 'texto_pt': 'A literatura brasileira é um grande encontro de vozes, regiões e épocas. Antes da '
+             'escrita em português, povos indígenas já transmitiam conhecimentos, histórias de '
+             'origem e ensinamentos por meio da oralidade. Com a colonização, surgiram textos '
+             'ligados à vida colonial; nos séculos seguintes, escritores passaram a imaginar o '
+             'país, discutir suas desigualdades e experimentar novas formas de escrever. No século '
+             'XIX, o romantismo ajudou a construir imagens de uma identidade nacional, enquanto '
+             'autores realistas, como Machado de Assis, observaram com ironia os costumes e as '
+             'relações de poder. No século XX, o modernismo rompeu convenções e aproximou a '
+             'literatura da fala e da diversidade brasileiras. Mais tarde, escritoras como Clarice '
+             'Lispector exploraram a vida interior e os pequenos acontecimentos do cotidiano. '
+             'Autores como Carolina Maria de Jesus deram forma literária à experiência da pobreza '
+             'urbana e à voz de quem raramente era ouvido nos livros. Hoje, romances, contos, '
+             'poemas, crônicas, literatura indígena e narrativas periféricas convivem em um campo '
+             'muito diverso. Ler esses textos é viajar pelo país sem sair da página: cada obra '
+             'revela uma época, uma maneira de falar e uma pergunta sobre como viver juntos.',
+ 'texto_fr': 'La littérature brésilienne est une grande rencontre de voix, de régions et '
+             'd’époques. Avant l’écriture en portugais, les peuples autochtones transmettaient '
+             'déjà des savoirs, des récits d’origine et des enseignements par la tradition orale. '
+             'Avec la colonisation apparurent des textes liés à la vie coloniale ; au fil des '
+             'siècles, des écrivains se mirent à imaginer le pays, à discuter de ses inégalités et '
+             'à expérimenter de nouvelles formes d’écriture. Au XIXe siècle, le romantisme '
+             'contribua à construire des images d’une identité nationale, tandis que des auteurs '
+             'réalistes comme Machado de Assis observaient avec ironie les mœurs et les rapports '
+             'de pouvoir. Au XXe siècle, le modernisme rompit avec les conventions et rapprocha la '
+             'littérature de la parole et de la diversité brésiliennes. Plus tard, des écrivaines '
+             'comme Clarice Lispector explorèrent la vie intérieure et les petits événements du '
+             'quotidien. Des autrices comme Carolina Maria de Jesus donnèrent une forme littéraire '
+             'à l’expérience de la pauvreté urbaine et à la voix de personnes rarement entendues '
+             'dans les livres. Aujourd’hui, romans, nouvelles, poèmes, chroniques, littérature '
+             'autochtone et récits des périphéries coexistent dans un paysage très divers. Lire '
+             'ces textes, c’est voyager dans le pays sans quitter la page : chaque œuvre révèle '
+             'une époque, une façon de parler et une question sur la vie en commun.',
+ 'vocabulario': [{'pt': 'oralidade', 'fr': 'tradition orale'},
+                 {'pt': 'romance', 'fr': 'roman'},
+                 {'pt': 'desigualdade', 'fr': 'inégalité'},
+                 {'pt': 'cotidiano', 'fr': 'quotidien'}],
+ 'quiz': [{'pergunta_pt': 'Como muitos povos indígenas transmitiam histórias e conhecimentos?',
+           'pergunta_fr': 'Comment de nombreux peuples autochtones transmettaient-ils les récits '
+                          'et les savoirs ?',
+           'opcoes_pt': ['Pela tradição oral.',
+                         'Pelos jornais digitais.',
+                         'Pelas novelas de televisão.'],
+           'opcoes_fr': ['Par la tradition orale.',
+                         'Par les journaux numériques.',
+                         'Par les feuilletons télévisés.'],
+           'resposta': 0},
+          {'pergunta_pt': 'O que o modernismo buscou fazer?',
+           'pergunta_fr': 'Que cherchait à faire le modernisme ?',
+           'opcoes_pt': ['Eliminar a diversidade regional.',
+                         'Romper convenções e explorar novas formas.',
+                         'Repetir somente modelos antigos.'],
+           'opcoes_fr': ['Éliminer la diversité régionale.',
+                         'Rompre avec les conventions et explorer de nouvelles formes.',
+                         'Répéter uniquement les anciens modèles.'],
+           'resposta': 2},
+          {'pergunta_pt': 'O que a literatura pode revelar ao leitor?',
+           'pergunta_fr': 'Que peut révéler la littérature au lecteur ?',
+           'opcoes_pt': ['Somente fatos inventados sem relação com a sociedade.',
+                         'Épocas, vozes e formas de viver.',
+                         'Apenas regras gramaticais.'],
+           'opcoes_fr': ['Seulement des faits inventés sans lien avec la société.',
+                         'Des époques, des voix et des façons de vivre.',
+                         'Uniquement des règles de grammaire.'],
+           'resposta': 1}]},
+{'slug': 'machado-de-assis',
+ 'categoria': 'cultura',
+ 'nivel': 'avancado',
+ 'emoji': '✒️',
+ 'titulo_pt': 'Machado de Assis e o olhar irônico',
+ 'titulo_fr': 'Machado de Assis et son regard ironique',
+ 'texto_pt': 'Joaquim Maria Machado de Assis nasceu no Rio de Janeiro em 1839 e se tornou um dos '
+             'nomes centrais da literatura em língua portuguesa. Filho de uma família humilde, '
+             'começou a trabalhar ainda jovem e aprendeu muito por conta própria. Foi tipógrafo, '
+             'revisor, jornalista, cronista, poeta e romancista; sua carreira mostra como a '
+             'imprensa e os folhetins eram espaços importantes para a literatura do século XIX. Em '
+             '1897, participou da fundação da Academia Brasileira de Letras e foi seu primeiro '
+             'presidente. Entre suas obras mais conhecidas estão Memórias Póstumas de Brás Cubas, '
+             'Quincas Borba e Dom Casmurro. Em Memórias Póstumas, o narrador conta sua vida depois '
+             'de morto e conversa diretamente com quem lê. Esse recurso permite a Machado brincar '
+             'com as expectativas do público e expor, com humor e ironia, a vaidade e os '
+             'privilégios da elite. Em Dom Casmurro, o leitor acompanha a memória interessada de '
+             'Bentinho e precisa decidir o quanto pode confiar em sua versão dos fatos. Machado '
+             'não entrega respostas simples: seus narradores podem omitir, exagerar ou tentar '
+             'convencer. Por isso, seus livros continuam provocando debates sobre memória, ciúme, '
+             'classe social e o poder de contar uma história.',
+ 'texto_fr': 'Joaquim Maria Machado de Assis naquit à Rio de Janeiro en 1839 et devint l’une des '
+             'figures majeures de la littérature de langue portugaise. Issu d’une famille modeste, '
+             'il commença à travailler jeune et apprit beaucoup par lui-même. Il fut typographe, '
+             'correcteur, journaliste, chroniqueur, poète et romancier ; son parcours montre '
+             'l’importance de la presse et des feuilletons pour la littérature du XIXe siècle. En '
+             '1897, il participa à la fondation de l’Académie brésilienne des lettres et en devint '
+             'le premier président. Parmi ses œuvres les plus connues figurent Mémoires posthumes '
+             'de Brás Cubas, Quincas Borba et Dom Casmurro. Dans Mémoires posthumes, le narrateur '
+             'raconte sa vie après sa mort et s’adresse directement au lecteur. Ce procédé permet '
+             'à Machado de jouer avec les attentes du public et de révéler, avec humour et ironie, '
+             'la vanité et les privilèges des élites. Dans Dom Casmurro, le lecteur suit les '
+             'souvenirs intéressés de Bentinho et doit décider dans quelle mesure il peut croire '
+             'sa version des faits. Machado ne donne pas de réponses faciles : ses narrateurs '
+             'peuvent omettre, exagérer ou chercher à convaincre. Ses livres suscitent ainsi '
+             'encore des discussions sur la mémoire, la jalousie, les classes sociales et le '
+             'pouvoir de raconter une histoire.',
+ 'vocabulario': [{'pt': 'cronista', 'fr': 'chroniqueur'},
+                 {'pt': 'vaidade', 'fr': 'vanité'},
+                 {'pt': 'narrador', 'fr': 'narrateur'},
+                 {'pt': 'omitir', 'fr': 'omettre'}],
+ 'quiz': [{'pergunta_pt': 'Em que cidade Machado de Assis nasceu?',
+           'pergunta_fr': 'Dans quelle ville Machado de Assis est-il né ?',
+           'opcoes_pt': ['Salvador.', 'Rio de Janeiro.', 'Recife.'],
+           'opcoes_fr': ['À Salvador.', 'À Rio de Janeiro.', 'À Recife.'],
+           'resposta': 1},
+          {'pergunta_pt': 'Quem narra Memórias Póstumas de Brás Cubas?',
+           'pergunta_fr': 'Qui raconte les Mémoires posthumes de Brás Cubas ?',
+           'opcoes_pt': ['Um narrador que conta a vida depois de morrer.',
+                         'O próprio leitor.',
+                         'Um historiador do século XXI.'],
+           'opcoes_fr': ['Un narrateur qui raconte sa vie après sa mort.',
+                         'Le lecteur lui-même.',
+                         'Un historien du XXIe siècle.'],
+           'resposta': 1},
+          {'pergunta_pt': 'Por que Dom Casmurro ainda provoca debates?',
+           'pergunta_fr': 'Pourquoi Dom Casmurro suscite-t-il encore des débats ?',
+           'opcoes_pt': ['Porque o leitor precisa avaliar a versão do narrador.',
+                         'Porque o romance não tem narrador.',
+                         'Porque todos os fatos são explicados por documentos.'],
+           'opcoes_fr': ['Parce que le lecteur doit évaluer la version du narrateur.',
+                         'Parce que le roman n’a pas de narrateur.',
+                         'Parce que tous les faits sont expliqués par des documents.'],
+           'resposta': 0}]},
+{'slug': 'clarice-lispector',
+ 'categoria': 'cultura',
+ 'nivel': 'avancado',
+ 'emoji': '🪞',
+ 'titulo_pt': 'Clarice Lispector: o cotidiano por dentro',
+ 'titulo_fr': 'Clarice Lispector : le quotidien vu de l’intérieur',
+ 'texto_pt': 'Clarice Lispector nasceu na Ucrânia, em 1920, e chegou ainda bebê ao Brasil com a '
+             'família. Cresceu no Nordeste e viveu no Recife durante parte importante da infância; '
+             'mais tarde, mudou-se para o Rio de Janeiro. Em 1943 publicou seu primeiro romance, '
+             'Perto do Coração Selvagem, que chamou atenção pela linguagem singular e pela maneira '
+             'de acompanhar os pensamentos de uma personagem. Clarice escreveu romances, contos, '
+             'crônicas e livros para crianças, além de trabalhar como jornalista. Em obras como '
+             'Laços de Família, A Paixão Segundo G.H. e A Hora da Estrela, acontecimentos comuns '
+             'podem abrir perguntas profundas: uma conversa, um encontro ou uma tarefa doméstica '
+             'faz a personagem olhar de outro modo para si e para o mundo. Sua prosa '
+             'frequentemente acompanha a consciência em movimento, com frases que parecem pensar '
+             'enquanto avançam. Em A Hora da Estrela, publicado em 1977, a história de Macabéa, '
+             'uma jovem migrante nordestina que vive no Rio, também levanta questões sobre '
+             'pobreza, invisibilidade e quem tem o direito de narrar a vida de outra pessoa. A '
+             'escrita de Clarice pode parecer enigmática, mas começa muitas vezes com algo '
+             'familiar. Ler devagar ajuda a perceber imagens, silêncios e mudanças de perspectiva '
+             'que transformam o cotidiano em descoberta.',
+ 'texto_fr': 'Clarice Lispector naquit en Ukraine en 1920 et arriva bébé au Brésil avec sa '
+             'famille. Elle grandit dans le Nordeste et vécut une partie importante de son enfance '
+             'à Recife ; plus tard, elle s’installa à Rio de Janeiro. En 1943, elle publia son '
+             'premier roman, Près du cœur sauvage, remarqué pour sa langue singulière et sa '
+             'manière de suivre les pensées d’un personnage. Clarice écrivit des romans, des '
+             'nouvelles, des chroniques et des livres pour enfants, et travailla aussi comme '
+             'journaliste. Dans des œuvres comme Liens de famille, La Passion selon G.H. et '
+             'L’Heure de l’étoile, des événements ordinaires peuvent ouvrir des questions '
+             'profondes : une conversation, une rencontre ou une tâche ménagère amène le '
+             'personnage à se regarder et à regarder le monde autrement. Sa prose suit souvent une '
+             'conscience en mouvement, avec des phrases qui semblent réfléchir au fur et à mesure. '
+             'Dans L’Heure de l’étoile, publié en 1977, l’histoire de Macabéa, une jeune migrante '
+             'du Nordeste vivant à Rio, soulève aussi des questions sur la pauvreté, '
+             'l’invisibilité et le droit de raconter la vie d’autrui. L’écriture de Clarice peut '
+             'sembler énigmatique, mais elle part souvent d’un détail familier. Lire lentement '
+             'aide à remarquer les images, les silences et les changements de perspective qui '
+             'transforment le quotidien en découverte.',
+ 'vocabulario': [{'pt': 'consciência', 'fr': 'conscience'},
+                 {'pt': 'enigmático', 'fr': 'énigmatique'},
+                 {'pt': 'silêncio', 'fr': 'silence'},
+                 {'pt': 'perspectiva', 'fr': 'perspective'}],
+ 'quiz': [{'pergunta_pt': 'Onde Clarice Lispector nasceu?',
+           'pergunta_fr': 'Où Clarice Lispector est-elle née ?',
+           'opcoes_pt': ['No Rio de Janeiro.', 'Na Ucrânia.', 'No Recife.'],
+           'opcoes_fr': ['À Rio de Janeiro.', 'En Ukraine.', 'À Recife.'],
+           'resposta': 1},
+          {'pergunta_pt': 'O que pode acontecer a partir de uma cena comum em seus livros?',
+           'pergunta_fr': 'Que peut-il se passer à partir d’une scène ordinaire dans ses livres ?',
+           'opcoes_pt': ['Ela pode abrir perguntas profundas.',
+                         'Ela sempre termina em uma aventura policial.',
+                         'Ela não afeta os personagens.'],
+           'opcoes_fr': ['Elle peut ouvrir des questions profondes.',
+                         'Elle se termine toujours par une aventure policière.',
+                         'Elle n’affecte pas les personnages.'],
+           'resposta': 0},
+          {'pergunta_pt': 'Quem é Macabéa?',
+           'pergunta_fr': 'Qui est Macabéa ?',
+           'opcoes_pt': ['Uma cientista da Fiocruz.',
+                         'Uma jovem migrante nordestina em A Hora da Estrela.',
+                         'A narradora de Dom Casmurro.'],
+           'opcoes_fr': ['Une scientifique de Fiocruz.',
+                         'Une jeune migrante du Nordeste dans L’Heure de l’étoile.',
+                         'La narratrice de Dom Casmurro.'],
+           'resposta': 1}]},
+{'slug': 'carlos-chagas-ciencia',
+ 'categoria': 'ciencia',
+ 'nivel': 'avancado',
+ 'emoji': '🔬',
+ 'titulo_pt': 'Carlos Chagas e uma descoberta completa',
+ 'titulo_fr': 'Carlos Chagas et une découverte complète',
+ 'texto_pt': 'No início do século XX, o médico e pesquisador Carlos Chagas trabalhava em Lassance, '
+             'no interior de Minas Gerais, durante uma campanha contra a malária. Em 1909, '
+             'investigou um inseto conhecido como barbeiro, que se escondia nas paredes das casas '
+             'e se alimentava de sangue. Chagas identificou no inseto um protozoário até então '
+             'desconhecido, que chamou Trypanosoma cruzi em homenagem ao médico Oswaldo Cruz. '
+             'Depois, encontrou o parasita no sangue de uma criança chamada Berenice e descreveu a '
+             'doença que passou a levar seu nome. O trabalho se destacou porque Chagas identificou '
+             'o agente causador, o inseto transmissor e a doença humana em um mesmo ciclo de '
+             'pesquisa. Essa descoberta não foi obra de uma pessoa isolada: pesquisadores do '
+             'Instituto Oswaldo Cruz contribuíram para estudar o parasita e compreender a doença. '
+             'A investigação também mostrou como a ciência pode começar com perguntas sobre a vida '
+             'cotidiana e as condições de moradia. A doença de Chagas continua sendo um problema '
+             'de saúde pública em vários países, por isso a pesquisa, o diagnóstico e o acesso à '
+             'informação seguem importantes. A história de Lassance é um exemplo de ciência feita '
+             'no Brasil que dialogou com problemas locais e teve impacto internacional.',
+ 'texto_fr': 'Au début du XXe siècle, le médecin et chercheur Carlos Chagas travaillait à '
+             'Lassance, dans l’intérieur du Minas Gerais, pendant une campagne contre le '
+             'paludisme. En 1909, il étudia un insecte appelé barbeiro, qui se cachait dans les '
+             'murs des maisons et se nourrissait de sang. Chagas identifia chez cet insecte un '
+             'protozoaire jusque-là inconnu, qu’il nomma Trypanosoma cruzi en hommage au médecin '
+             'Oswaldo Cruz. Il trouva ensuite le parasite dans le sang d’une enfant appelée '
+             'Berenice et décrivit la maladie qui allait porter son nom. Ce travail fut '
+             'remarquable parce que Chagas identifia l’agent responsable, l’insecte transmetteur '
+             'et la maladie humaine dans un même cycle de recherche. Cette découverte ne fut pas '
+             'l’œuvre d’une personne isolée : des chercheurs de l’Institut Oswaldo Cruz '
+             'contribuèrent à étudier le parasite et à comprendre la maladie. L’enquête montra '
+             'aussi comment la science peut partir de questions sur la vie quotidienne et les '
+             'conditions de logement. La maladie de Chagas reste un problème de santé publique '
+             'dans plusieurs pays ; la recherche, le diagnostic et l’accès à l’information restent '
+             'donc importants. L’histoire de Lassance est un exemple de science menée au Brésil, '
+             'en dialogue avec des problèmes locaux et ayant eu un impact international.',
+ 'vocabulario': [{'pt': 'pesquisador', 'fr': 'chercheur'},
+                 {'pt': 'parasita', 'fr': 'parasite'},
+                 {'pt': 'transmissor', 'fr': 'transmetteur'},
+                 {'pt': 'diagnóstico', 'fr': 'diagnostic'}],
+ 'quiz': [{'pergunta_pt': 'Onde Carlos Chagas realizou parte importante de sua pesquisa?',
+           'pergunta_fr': 'Où Carlos Chagas a-t-il mené une partie importante de ses recherches ?',
+           'opcoes_pt': ['Em Lassance, Minas Gerais.', 'Em Manaus, Amazonas.', 'Em Brasília.'],
+           'opcoes_fr': ['À Lassance, dans le Minas Gerais.',
+                         'À Manaus, en Amazonie.',
+                         'À Brasília.'],
+           'resposta': 0},
+          {'pergunta_pt': 'O que era o barbeiro na pesquisa?',
+           'pergunta_fr': 'Quel rôle jouait le barbeiro dans cette recherche ?',
+           'opcoes_pt': ['O nome do laboratório.',
+                         'O inseto transmissor estudado por Chagas.',
+                         'O remédio usado contra a malária.'],
+           'opcoes_fr': ['Le nom du laboratoire.',
+                         'L’insecte transmetteur étudié par Chagas.',
+                         'Le médicament utilisé contre le paludisme.'],
+           'resposta': 1},
+          {'pergunta_pt': 'O que tornou a descoberta especialmente notável?',
+           'pergunta_fr': 'Qu’est-ce qui rendit cette découverte particulièrement remarquable ?',
+           'opcoes_pt': ['A criação de um novo hospital em Brasília.',
+                         'A identificação do parasita, vetor e doença no mesmo ciclo de pesquisa.',
+                         'A descoberta de uma vacina contra todas as doenças.'],
+           'opcoes_fr': ['La création d’un nouvel hôpital à Brasília.',
+                         'L’identification du parasite, du vecteur et de la maladie dans un même '
+                         'cycle de recherche.',
+                         'La découverte d’un vaccin contre toutes les maladies.'],
+           'resposta': 1}]},
+{'slug': 'ciencia-agricola-no-brasil',
+ 'categoria': 'ciencia',
+ 'nivel': 'intermediario',
+ 'emoji': '🌱',
+ 'titulo_pt': 'Ciência agrícola e o Cerrado',
+ 'titulo_fr': 'La recherche agricole et le Cerrado',
+ 'texto_pt': 'A pesquisa científica também transforma a agricultura. Em 1973, o Brasil inaugurou a '
+             'Embrapa, uma instituição pública dedicada à pesquisa agropecuária. A ideia era '
+             'desenvolver conhecimentos adaptados aos solos, ao clima e às necessidades do país, '
+             'em colaboração com universidades, órgãos estaduais, técnicos e produtores. No '
+             'Cerrado, por exemplo, pesquisadores estudaram a acidez e a fertilidade dos solos, '
+             'variedades de plantas e técnicas de manejo. Esse trabalho ajudou a tornar possível o '
+             'cultivo de algumas culturas em áreas onde antes a produção era limitada. A '
+             'transformação aumentou a oferta de alimentos e mudou a economia de várias regiões, '
+             'mas também trouxe consequências ambientais: a expansão agrícola pode pressionar a '
+             'vegetação nativa, a água e a biodiversidade. Por isso, a pesquisa atual precisa '
+             'considerar produtividade e conservação ao mesmo tempo. Ciência agrícola não acontece '
+             'apenas em laboratórios; envolve testes em campo, observação de longo prazo, '
+             'conhecimento local e decisões sobre como usar a terra. O exemplo do Cerrado mostra '
+             'tanto a capacidade de pesquisa desenvolvida no Brasil quanto a responsabilidade de '
+             'avaliar os custos e benefícios das mudanças. Produzir mais é importante, mas '
+             'proteger ecossistemas e comunidades também faz parte do desafio.',
+ 'texto_fr': 'La recherche scientifique transforme aussi l’agriculture. En 1973, le Brésil '
+             'inaugura l’Embrapa, un organisme public consacré à la recherche agricole et animale. '
+             'L’objectif était de développer des connaissances adaptées aux sols, au climat et aux '
+             'besoins du pays, en collaboration avec les universités, les organismes régionaux, '
+             'les techniciens et les producteurs. Dans le Cerrado, par exemple, les chercheurs '
+             'étudièrent l’acidité et la fertilité des sols, les variétés végétales et les '
+             'techniques de gestion des cultures. Ces travaux contribuèrent à rendre certaines '
+             'cultures possibles dans des zones où la production était auparavant limitée. Cette '
+             'transformation augmenta l’offre alimentaire et changea l’économie de plusieurs '
+             'régions, mais elle eut aussi des conséquences environnementales : l’expansion '
+             'agricole peut exercer une pression sur la végétation native, l’eau et la '
+             'biodiversité. La recherche actuelle doit donc considérer la productivité et la '
+             'conservation ensemble. La recherche agricole ne se déroule pas uniquement en '
+             'laboratoire ; elle implique des essais sur le terrain, une observation à long terme, '
+             'les savoirs locaux et des choix sur l’utilisation des terres. L’exemple du Cerrado '
+             'montre à la fois les capacités de recherche développées au Brésil et la '
+             'responsabilité d’évaluer les coûts et les bénéfices des changements. Produire '
+             'davantage est important, mais protéger les écosystèmes et les communautés fait aussi '
+             'partie du défi.',
+ 'vocabulario': [{'pt': 'agropecuária', 'fr': 'agriculture et élevage'},
+                 {'pt': 'fertilidade', 'fr': 'fertilité'},
+                 {'pt': 'manejo', 'fr': 'gestion'},
+                 {'pt': 'biodiversidade', 'fr': 'biodiversité'}],
+ 'quiz': [{'pergunta_pt': 'Quando a Embrapa foi inaugurada?',
+           'pergunta_fr': 'Quand l’Embrapa a-t-elle été inaugurée ?',
+           'opcoes_pt': ['Em 1909.', 'Em 1973.', 'Em 2000.'],
+           'opcoes_fr': ['En 1909.', 'En 1973.', 'En 2000.'],
+           'resposta': 1},
+          {'pergunta_pt': 'O que pesquisadores estudaram no Cerrado?',
+           'pergunta_fr': 'Qu’ont étudié les chercheurs dans le Cerrado ?',
+           'opcoes_pt': ['A construção de ferrovias.',
+                         'Solos, plantas e técnicas de manejo.',
+                         'Somente a vida marinha.'],
+           'opcoes_fr': ['La construction de chemins de fer.',
+                         'Les sols, les plantes et les techniques de gestion.',
+                         'Uniquement la vie marine.'],
+           'resposta': 1},
+          {'pergunta_pt': 'Que desafio a pesquisa agrícola precisa considerar?',
+           'pergunta_fr': 'Quel défi la recherche agricole doit-elle prendre en compte ?',
+           'opcoes_pt': ['Equilibrar produção e conservação.',
+                         'Expandir a produção sem avaliar impactos.',
+                         'Substituir toda a vegetação nativa.'],
+           'opcoes_fr': ['Équilibrer production et conservation.',
+                         'Étendre la production sans évaluer les impacts.',
+                         'Remplacer toute la végétation native.'],
+           'resposta': 0}]},
+
 ]
