@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}{{ texto.titulo_pt }} — {{ ui.site_title }}{% endblock %}
+
+{% block content %}
+<a class="back" href="{{ url_for('index') }}">← {{ ui.back }}</a>
+
+<article class="texto">
+  <img class="texto-hero" src="{{ url_for('capa', slug=texto.slug) }}" alt="{{ texto.titulo_pt }}">
+  <div class="texto-header-body">
+    <div class="card-meta">
+      <span class="badge badge-cat">{{ get_cat(texto.categoria) }}</span>
+      <span class="badge badge-nivel">{{ get_nivel(texto.nivel) }}</span>
+    </div>
+    <h1>{{ texto.titulo_pt }}</h1>
+    <p class="card-sub">{{ texto.titulo_fr }}</p>
+    <div class="lesson-byline">
+      <span>📖 {{ get_nivel(texto.nivel) }}</span>
+      <span>{{ sentences|length }} {{ 'frases para explorar' if lang == 'pt' else 'phrases à découvrir' }}</span>
+    </div>
+  </div>
+
+  <div class="texto-conteudo">
+    <div class="audio-bar">
+      <span class="audio-label">🎧 {{ ui.listen }}</span>
+      <audio id="audio-player" controls preload="none" src="{{ url_for('audio_full', slug=texto.slug) }}"></audio>
+      <span class="hint">{{ ui.listen_hint }}</span>
+    </div>
+
+  <section class="lang-block">
+    <h2>{{ ui.portuguese }} <span>🇧🇷</span></h2>
+    <p class="reading-tip">{{ ui.language_tip }}</p>
+    <p id="texto-pt" class="texto-body">
+      {% for s in sentences %}
+      <span class="frase" data-src="{{ url_for('audio_sentence', slug=texto.slug, i=loop.index0) }}">{{ s }} </span>
+      {% endfor %}
+    </p>
+  </section>
+
+  <details class="translation-panel">
+    <summary><span>🇫🇷 {{ ui.french }}</span><span class="translation-action">{{ 'Abrir tradução' if lang == 'pt' else 'Afficher la traduction' }} <span aria-hidden="true">＋</span></span></summary>
+    <section class="lang-block fr">
+      <p class="texto-body">{{ texto.texto_fr }}</p>
+    </section>
+  </details>
+
+  {% if texto.vocabulario %}
+  <section class="vocab">
+    <h2>{{ ui.vocabulary }}</h2>
+    <p class="hint">{{ ui.vocab_hint }}</p>
+    <ul class="vocab-list">
+      {% for v in texto.vocabulario %}
+      <li>
+        <button class="vocab-word" data-src="{{ url_for('audio_word', slug=texto.slug, i=loop.index0) }}">🔊 {{ v.pt }}</button>
+        <span class="vocab-fr">{{ v.fr }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if texto.quiz %}
+  <section class="quiz" data-quiz>
+    <div class="quiz-heading">
+      <span class="quiz-icon" aria-hidden="true">✦</span>
+      <div>
+        <h2>{{ ui.quiz_title }}</h2>
+        <p>{{ ui.quiz_intro }}</p>
+      </div>
+    </div>
+    <form class="quiz-form">
+      {% for q in texto.quiz %}
+      {% set question_index = loop.index0 %}
+      <fieldset class="quiz-question" data-question="{{ question_index }}">
+        <legend><span class="quiz-number">{{ '%02d' % loop.index }}</span><span>{{ q['pergunta_' ~ lang] }}</span></legend>
+        <div class="quiz-options">
+          {% for option in q['opcoes_' ~ lang] %}
+          <label class="quiz-option">
+            <input type="radio" name="question-{{ question_index }}" value="{{ loop.index0 }}">
+            <span>{{ option }}</span>
+          </label>
+          {% endfor %}
+        </div>
+        <p class="quiz-feedback" aria-live="polite"></p>
+      </fieldset>
+      {% endfor %}
+      <div class="quiz-actions">
+        <button type="submit" class="btn btn-primary">{{ ui.quiz_check }}</button>
+        <button type="reset" class="btn btn-outline quiz-reset">{{ ui.quiz_retry }}</button>
+      </div>
+      <p class="quiz-result" role="status" aria-live="polite"></p>
+      <script type="application/json" class="quiz-data">{{ texto.quiz | tojson }}</script>
+    </form>
+  </section>
+  {% endif %}
+  </div>
+</article>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/quiz.js') }}" defer></script>
+{% endblock %}

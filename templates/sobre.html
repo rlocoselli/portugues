@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}{{ ui.about_title }} — {{ ui.site_title }}{% endblock %}
+
+{% block content %}
+<article class="sobre">
+  <h1>{{ ui.about_title }}</h1>
+  <p>{{ ui.about_intro }}</p>
+
+  <h2 class="sobre-criador-title">{{ 'Quem está por trás do Fala Brasil' if lang == 'pt' else 'Qui est derrière Fala Brasil' }}</h2>
+
+  <section class="creator">
+    <img class="creator-img" src="{{ url_for('foto_rodrigo') }}" alt="Rodrigo, professor de português">
+    <div class="creator-info">
+      <h2>Rodrigo</h2>
+      <p class="creator-role">{{ ui.creator_role }}</p>
+      <div class="lang-chips">
+        <span class="chip">🇧🇷 Português (São Paulo) — {{ 'nativo' if lang == 'pt' else 'natif' }}</span>
+        <span class="chip">🇫🇷 Français</span>
+        <span class="chip">🇮🇹 Italiano</span>
+        <span class="chip">🇪🇸 Español</span>
+        <span class="chip">🇬🇧 English</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="bio-blocos">
+    <section class="bio bio-pt">
+      <h3>🇧🇷 Sobre mim</h3>
+      <p>Aprender uma língua fica mais vivo quando a gente também conhece as histórias e as pessoas por trás dela. Sou Rodrigo, desenvolvedor de software e professor de português brasileiro. Cresci falando português em São Paulo e gosto de transformar curiosidade em conversa.</p>
+      <p>Mais do que decorar palavras, aprender português é descobrir outros jeitos de contar histórias, receber alguém à mesa e olhar para o mundo. Criei este espaço para acompanhar você nessa jornada, um texto e uma nova expressão de cada vez.</p>
+      <p>Já ensinei idiomas a estrangeiros no Brasil e hoje moro na França. Também falo francês, italiano, espanhol e inglês — então conheço de perto os desafios e as pequenas vitórias de aprender uma língua nova.</p>
+    </section>
+    <section class="bio bio-fr">
+      <h3>🇫🇷 À propos de moi</h3>
+      <p>Une langue prend vie quand on découvre aussi les histoires et les personnes qui la font vibrer. Je m'appelle Rodrigo : développeur de logiciels et professeur de portugais brésilien. J'ai grandi en parlant portugais à São Paulo et j'aime transformer la curiosité en conversation.</p>
+      <p>Apprendre le portugais, ce n'est pas seulement mémoriser des mots. C'est découvrir d'autres façons de raconter, de partager un repas et de regarder le monde. J'ai créé cet espace pour vous accompagner, un texte et une expression nouvelle à la fois.</p>
+      <p>J'ai enseigné les langues à des étrangers au Brésil et je vis aujourd'hui en France. Je parle aussi français, italien, espagnol et anglais : je connais donc les défis et les petites victoires qui accompagnent l'apprentissage d'une nouvelle langue.</p>
+    </section>
+  </div>
+
+  <h2>{{ ui.about_how_title }}</h2>
+  <p>{{ ui.about_how_intro }}</p>
+
+  <ul class="fields">
+    {% if lang == 'pt' %}
+    <li><code>slug</code> — identificador único (só letras minúsculas e hífens).</li>
+    <li><code>categoria</code> — uma de: natureza, historia, geografia, cultura.</li>
+    <li><code>nivel</code> — um de: iniciante, intermediario, avancado.</li>
+    <li><code>titulo_pt</code> / <code>titulo_fr</code> — título em português e em francês.</li>
+    <li><code>texto_pt</code> / <code>texto_fr</code> — o texto em português e a tradução.</li>
+    <li><code>vocabulario</code> — lista de pares <code>{"pt": ..., "fr": ...}</code>.</li>
+    {% else %}
+    <li><code>slug</code> — identifiant unique (lettres minuscules et tirets uniquement).</li>
+    <li><code>categoria</code> — une de : natureza, historia, geografia, cultura.</li>
+    <li><code>nivel</code> — un de : iniciante, intermediario, avancado.</li>
+    <li><code>titulo_pt</code> / <code>titulo_fr</code> — titre en portugais et en français.</li>
+    <li><code>texto_pt</code> / <code>texto_fr</code> — le texte en portugais et sa traduction.</li>
+    <li><code>vocabulario</code> — liste de paires <code>{"pt": ..., "fr": ...}</code>.</li>
+    {% endif %}
+  </ul>
+
+  <h3>Exemplo</h3>
+  <pre><code>{
+    "slug": "novo-texto",
+    "categoria": "cultura",
+    "nivel": "iniciante",
+    "titulo_pt": "Meu novo texto",
+    "titulo_fr": "Mon nouveau texte",
+    "texto_pt": "Este é um texto de exemplo sobre o Brasil.",
+    "texto_fr": "Ceci est un texte d'exemple sur le Brésil.",
+    "vocabulario": [
+        {"pt": "exemplo", "fr": "exemple"}
+    ]
+},</code></pre>
+</article>
+{% endblock %}
