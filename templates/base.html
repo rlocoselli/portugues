@@ -14,9 +14,12 @@
         <img class="brand-logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="Logo {{ ui.site_title }}">
         <span class="brand-text">{{ ui.site_title }}</span>
       </a>
-      <nav class="nav">
+      <nav class="nav" aria-label="{{ 'Navegação principal' if lang == 'pt' else 'Navigation principale' }}">
         <a href="{{ url_for('index') }}">{{ ui.nav_home }}</a>
         <a href="{{ url_for('geografia') }}">{{ ui.nav_geography }}</a>
+        <a href="{{ url_for('dados') }}">{{ ui.nav_data }}</a>
+        <a href="{{ url_for('variedades') }}">{{ ui.nav_varieties }}</a>
+        <a href="{{ url_for('historia') }}">{{ ui.nav_history }}</a>
         <a href="{{ url_for('poesias') }}">{{ ui.nav_poetry }}</a>
         <a href="{{ url_for('sobre') }}">{{ ui.nav_about }}</a>
       </nav>

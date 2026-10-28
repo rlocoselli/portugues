@@ -16,6 +16,7 @@ from data.textos import TEXTOS, CATEGORIAS, NIVEIS
 from data.enriquecimento import enrich_texts
 from data.poesias import POESIAS
 from data.geografia import REGIONS, STATES, VIDEOS
+from data.guias import INDICATORS, INDICATOR_GROUPS, VARIETIES, HISTORY, SOURCES, guide_audio_text
 
 enrich_texts(TEXTOS)
 
@@ -43,6 +44,22 @@ UI = {
         "nav_about": "Sobre",
         "nav_poetry": "Poesias",
         "nav_geography": "Geografia",
+        "nav_data": "Dados",
+        "nav_varieties": "Brasil × Portugal",
+        "nav_history": "História",
+        "data_title": "O Brasil em dados",
+        "data_intro": "Economia, educação e desenvolvimento humano em números. Cada indicador tem um ano de referência e uma história por trás do valor.",
+        "varieties_title": "Uma língua, muitos jeitos de falar",
+        "varieties_intro": "Compare usos comuns no Brasil e em Portugal. As diferenças são tendências, e há muita variedade dentro de cada país.",
+        "history_title": "A história republicana do Brasil",
+        "history_intro": "Uma linha do tempo para entender mudanças políticas, direitos conquistados e rupturas democráticas, sem esquecer o que veio antes de 1889.",
+        "listen_pt": "Ouvir em português",
+        "listen_fr": "Ouvir em francês",
+        "audio_stop": "Parar áudio",
+        "audio_fallback": "voz do navegador",
+        "translation_open": "Ler tradução francesa",
+        "source_label": "Fonte",
+        "reference_year": "Referência",
         "geo_title": "Explore a geografia do Brasil",
         "geo_intro": "Viaje pelas cinco regiões, descubra os estados no mapa e aprenda como relevo e rios ajudam a contar a história de cada paisagem.",
         "geo_map_title": "Um mapa para explorar",
@@ -129,7 +146,7 @@ UI = {
         "no_results": "Nenhum texto encontrado.",
         "footer_note": "Textos sobre o Brasil com áudio (texto para fala).",
         "about_title": "Sobre este site",
-        "about_intro": "Este site reúne textos sobre o Brasil — natureza, história, geografia, cultura e ciência — para ajudar você a aprender português. Cada texto está disponível em português e em francês, com áudio (texto para fala), vocabulário e quiz. A seção Geografia também oferece um mapa interativo e vídeos curtos com transcrições bilíngues. O áudio dos textos é gerado no servidor e pode demorar um pouco na primeira reprodução.",
+        "about_intro": "Este site reúne textos sobre o Brasil — natureza, história, geografia, cultura e ciência — para ajudar você a aprender português. Cada texto está disponível em português e em francês, com áudio, vocabulário e quiz. Há também um mapa interativo, vídeos curtos e guias bilíngues sobre indicadores, variedades do português e história republicana. O áudio é gerado no servidor e pode demorar um pouco na primeira reprodução.",
         "about_how_title": "Como adicionar novos textos",
         "about_how_intro": "Os textos ficam em um único arquivo, sem banco de dados. Para adicionar um novo texto, abra o arquivo data/textos.py e copie um dos blocos existentes, preenchendo os seguintes campos:",
     },
@@ -141,6 +158,22 @@ UI = {
         "nav_about": "À propos",
         "nav_poetry": "Poèmes",
         "nav_geography": "Géographie",
+        "nav_data": "Données",
+        "nav_varieties": "Brésil × Portugal",
+        "nav_history": "Histoire",
+        "data_title": "Le Brésil en chiffres",
+        "data_intro": "Économie, éducation et développement humain en chiffres. Chaque indicateur a une année de référence et une histoire derrière sa valeur.",
+        "varieties_title": "Une langue, plusieurs façons de parler",
+        "varieties_intro": "Comparez des usages courants au Brésil et au Portugal. Ces différences sont des tendances ; chaque pays possède aussi sa diversité.",
+        "history_title": "L’histoire républicaine du Brésil",
+        "history_intro": "Une chronologie pour comprendre les changements politiques, les droits acquis et les ruptures démocratiques, sans oublier ce qui précède 1889.",
+        "listen_pt": "Écouter en portugais",
+        "listen_fr": "Écouter en français",
+        "audio_stop": "Arrêter l’audio",
+        "audio_fallback": "voix du navigateur",
+        "translation_open": "Lire la traduction française",
+        "source_label": "Source",
+        "reference_year": "Année de référence",
         "geo_title": "Explorez la géographie du Brésil",
         "geo_intro": "Parcourez les cinq régions, découvrez les États sur la carte et voyez comment le relief et les fleuves façonnent les paysages.",
         "geo_map_title": "Une carte à explorer",
@@ -227,7 +260,7 @@ UI = {
         "no_results": "Aucun texte trouvé.",
         "footer_note": "Textes sur le Brésil avec audio (synthèse vocale).",
         "about_title": "À propos de ce site",
-        "about_intro": "Ce site rassemble des textes sur le Brésil — nature, histoire, géographie, culture et science — pour vous aider à apprendre le portugais. Chaque texte est disponible en portugais et en français, avec audio (synthèse vocale), vocabulaire et quiz. La section Géographie propose également une carte interactive et de courtes vidéos avec transcriptions bilingues. L’audio des textes est généré sur le serveur et peut prendre un moment lors de la première écoute.",
+        "about_intro": "Ce site rassemble des textes sur le Brésil — nature, histoire, géographie, culture et science — pour vous aider à apprendre le portugais. Chaque texte est disponible en portugais et en français, avec audio, vocabulaire et quiz. Le site propose aussi une carte interactive, de courtes vidéos et des guides bilingues sur les indicateurs, les variétés du portugais et l’histoire républicaine. L’audio est généré sur le serveur et peut prendre un moment lors de la première écoute.",
         "about_how_title": "Comment ajouter de nouveaux textes",
         "about_how_intro": "Les textes se trouvent dans un seul fichier, sans base de données. Pour ajouter un nouveau texte, ouvrez le fichier data/textos.py et copiez l'un des blocs existants, en remplissant les champs suivants :",
     },
@@ -287,13 +320,13 @@ def _capa_svg(c1, c2, emoji):
     )
 
 
-def _serve_audio(key, text):
+def _serve_audio(key, text, language="pt-br"):
     os.makedirs(AUDIO_DIR, exist_ok=True)
     path = os.path.join(AUDIO_DIR, key + ".mp3")
     if not os.path.exists(path):
         try:
             from gtts import gTTS
-            gTTS(text=text, lang="pt-br", slow=False).save(path)
+            gTTS(text=text, lang=language, slow=False).save(path)
         except Exception:
             abort(503)
     return send_file(path, mimetype="audio/mpeg", conditional=True)
@@ -414,6 +447,33 @@ def sobre():
 @app.route("/geografia")
 def geografia():
     return render_template("geografia.html", regions=REGIONS, states=STATES, videos=VIDEOS)
+
+
+@app.route("/dados")
+def dados():
+    return render_template("dados.html", groups=INDICATOR_GROUPS, indicators=INDICATORS, sources=SOURCES)
+
+
+@app.route("/variedades")
+def variedades():
+    return render_template("variedades.html", topics=VARIETIES, sources=SOURCES)
+
+
+@app.route("/historia")
+def historia():
+    return render_template("historia.html", periods=HISTORY, sources=SOURCES)
+
+
+@app.route("/audio/guia/<section>/<item>/<language>.mp3")
+def audio_guia(section, item, language):
+    if language not in ("pt", "fr"):
+        abort(404)
+    text = guide_audio_text(section, item, language)
+    if text is None:
+        abort(404)
+    version = hashlib.sha256(text.encode("utf-8")).hexdigest()[:10]
+    return _serve_audio(f"guia-{section}-{item}-{language}-{version}", text,
+                        "pt-br" if language == "pt" else "fr")
 
 
 @app.route("/poesias")

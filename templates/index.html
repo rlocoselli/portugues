@@ -24,6 +24,12 @@
   <div class="home-geo-art" aria-hidden="true"><span>🧭</span><strong>5</strong><small>{{ 'regiões' if lang == 'pt' else 'régions' }}</small></div>
 </section>
 
+<section class="home-guide-links" aria-label="{{ 'Outros caminhos para explorar' if lang == 'pt' else 'Autres pistes à explorer' }}">
+  <a href="{{ url_for('dados') }}"><span class="home-guide-icon">▥</span><span><strong>{{ ui.nav_data }}</strong><small>{{ 'Economia, educação e IDH explicados' if lang == 'pt' else 'Économie, éducation et IDH expliqués' }}</small></span><b aria-hidden="true">↗</b></a>
+  <a href="{{ url_for('variedades') }}"><span class="home-guide-icon">↔</span><span><strong>{{ ui.nav_varieties }}</strong><small>{{ 'Descubra palavras e jeitos de falar' if lang == 'pt' else 'Découvrez les mots et les usages' }}</small></span><b aria-hidden="true">↗</b></a>
+  <a href="{{ url_for('historia') }}"><span class="home-guide-icon">◷</span><span><strong>{{ ui.nav_history }}</strong><small>{{ 'Da Primeira República à Constituição de 1988' if lang == 'pt' else 'De la Première République à la Constitution de 1988' }}</small></span><b aria-hidden="true">↗</b></a>
+</section>
+
 <section class="video-feature">
   <div class="video-copy"><span class="eyebrow">{{ 'UM CONVITE PARA VIAJAR' if lang == 'pt' else 'UNE INVITATION AU VOYAGE' }}</span><h2>{{ ui.video_title }}</h2><p>{{ ui.video_body }}</p><p class="video-caption">{{ 'Vídeo ilustrado · 12 segundos · sem áudio' if lang == 'pt' else 'Vidéo illustrée · 12 secondes · sans audio' }}</p></div>
   <video controls muted loop playsinline preload="none" poster="{{ url_for('static', filename='img/amazonia.webp') }}" aria-label="{{ ui.video_title }}">

@@ -1,0 +1,20 @@
+{% macro audio_buttons(section, item, text_pt, text_fr) %}
+<div class="guide-audio-actions">
+  <button type="button" class="guide-listen" data-guide-audio="{{ url_for('audio_guia', section=section, item=item, language='pt') }}" data-speech-text="{{ text_pt }}" data-speech-lang="pt-BR"><span aria-hidden="true">▶</span> {{ ui.listen_pt }}</button>
+  <button type="button" class="guide-listen" data-guide-audio="{{ url_for('audio_guia', section=section, item=item, language='fr') }}" data-speech-text="{{ text_fr }}" data-speech-lang="fr-FR"><span aria-hidden="true">▶</span> {{ ui.listen_fr }}</button>
+</div>
+{% endmacro %}
+
+{% macro bilingual_text(section, item, text_pt, text_fr) %}
+<p class="guide-text" lang="pt">{{ text_pt }}</p>
+<details class="guide-translation" {{ 'open' if lang == 'fr' else '' }}><summary>{{ ui.translation_open }} <span aria-hidden="true">＋</span></summary><p lang="fr">{{ text_fr }}</p></details>
+{{ audio_buttons(section, item, text_pt, text_fr) }}
+{% endmacro %}
+
+{% macro player() %}
+<div class="guide-player" data-guide-player data-fallback-label="{{ ui.audio_fallback }}" hidden>
+  <span data-guide-now aria-live="polite"></span>
+  <audio id="guide-audio" controls preload="none"></audio>
+  <button type="button" data-guide-stop aria-label="{{ ui.audio_stop }}">×</button>
+</div>
+{% endmacro %}

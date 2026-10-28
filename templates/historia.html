@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% from "_guia_macros.html" import bilingual_text, player with context %}
+{% block title %}{{ ui.nav_history }} — {{ ui.site_title }}{% endblock %}
+{% block content %}
+<section class="guide-hero history-hero"><span class="eyebrow">{{ 'LINHA DO TEMPO' if lang == 'pt' else 'CHRONOLOGIE' }}</span><h1>{{ ui.history_title }}</h1><p>{{ ui.history_intro }}</p><a class="btn guide-hero-button" href="#linha-do-tempo">{{ 'Explorar os períodos' if lang == 'pt' else 'Explorer les périodes' }} ↓</a></section>
+<p class="guide-context">{{ 'Os nomes dos períodos ajudam a organizar a leitura. Eles não substituem as experiências diferentes das pessoas que viveram cada época.' if lang == 'pt' else 'Les noms des périodes facilitent la lecture. Ils ne remplacent pas les expériences diverses des personnes qui ont vécu à chaque époque.' }}</p>
+<div class="history-timeline" id="linha-do-tempo">
+  {% for period in periods %}
+  <section class="history-era" id="{{ period.slug }}">
+    <div class="history-marker"><span>{{ period.icon }}</span></div>
+    <article class="history-era-card"><span class="history-date">{{ period.date }}</span><h2>{{ period['title_' ~ lang] }}</h2>{{ bilingual_text('historia', period.slug, period.text_pt, period.text_fr) }}</article>
+  </section>
+  {% endfor %}
+</div>
+<div class="history-sources"><h2>{{ 'Para continuar' if lang == 'pt' else 'Pour aller plus loin' }}</h2><p>{{ 'A linha do tempo foi preparada com apoio de materiais do Senado Federal e de arquivos sobre a ditadura. Leia as fontes para conhecer mais detalhes e interpretações.' if lang == 'pt' else 'Cette chronologie s’appuie sur des ressources du Sénat fédéral et des archives sur la dictature. Consultez les sources pour approfondir les faits et les interprétations.' }}</p><a class="guide-source" href="{{ sources.history }}" target="_blank" rel="noopener noreferrer">{{ 'História das Constituições · Senado Federal' if lang == 'pt' else 'Histoire des Constitutions · Sénat fédéral' }} ↗</a><a class="guide-source" href="https://www12.senado.leg.br/noticias/infomaterias/2025/03/a-redemocratizacao-em-dez-atos" target="_blank" rel="noopener noreferrer">{{ 'A redemocratização em dez atos · Senado Federal' if lang == 'pt' else 'La redémocratisation en dix étapes · Sénat fédéral' }} ↗</a><a class="guide-source" href="{{ sources.memory }}" target="_blank" rel="noopener noreferrer">{{ 'Memória, Verdade e Justiça · Arquivo Nacional' if lang == 'pt' else 'Mémoire, vérité et justice · Archives nationales' }} ↗</a></div>
+{{ player() }}
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/guide-audio.js') }}" defer></script>{% endblock %}

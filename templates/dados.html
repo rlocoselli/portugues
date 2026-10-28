@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% from "_guia_macros.html" import bilingual_text, player with context %}
+{% block title %}{{ ui.nav_data }} — {{ ui.site_title }}{% endblock %}
+{% block content %}
+<section class="guide-hero data-hero"><span class="eyebrow">{{ 'PAINEL DE APRENDIZAGEM' if lang == 'pt' else 'TABLEAU POUR APPRENDRE' }}</span><h1>{{ ui.data_title }}</h1><p>{{ ui.data_intro }}</p><div class="guide-hero-links">{% for group in groups %}<a href="#{{ group.slug }}">{{ group['title_' ~ lang] }} ↓</a>{% endfor %}</div></section>
+
+<p class="guide-context">{{ 'Os números abaixo têm anos de referência diferentes. Leia a explicação e a fonte de cada cartão antes de comparar.' if lang == 'pt' else 'Les chiffres ci-dessous ne portent pas tous sur la même année. Lisez l’explication et la source de chaque carte avant de les comparer.' }}</p>
+
+{% for group in groups %}
+<section id="{{ group.slug }}" class="indicator-section">
+  <div class="guide-section-head"><span class="guide-section-icon" aria-hidden="true">{{ group.icon }}</span><div><span class="eyebrow">{{ 'INDICADORES' if lang == 'pt' else 'INDICATEURS' }}</span><h2>{{ group['title_' ~ lang] }}</h2><p>{{ group['intro_' ~ lang] }}</p></div></div>
+  <div class="indicator-grid">
+    {% for indicator in indicators if indicator.group == group.slug %}
+    <article class="indicator-card">
+      <div class="indicator-top"><span>{{ indicator['label_' ~ lang] }}</span><span class="indicator-year">{{ indicator.get('year_' ~ lang, indicator.year) }}</span></div>
+      <strong class="indicator-value">{{ indicator.get('value_' ~ lang, indicator.value) }}</strong>
+      {{ bilingual_text('dados', indicator.slug, indicator.text_pt, indicator.text_fr) }}
+      <a class="guide-source" href="{{ sources[indicator.source] }}" target="_blank" rel="noopener noreferrer">{{ ui.source_label }}: {{ 'PNUD · Relatório 2025' if indicator.source == 'hdi' else 'IBGE' }} ↗</a>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+{{ player() }}
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/guide-audio.js') }}" defer></script>{% endblock %}

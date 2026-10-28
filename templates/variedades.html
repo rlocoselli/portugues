@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from "_guia_macros.html" import bilingual_text, player with context %}
+{% block title %}{{ ui.nav_varieties }} — {{ ui.site_title }}{% endblock %}
+{% block content %}
+<section class="guide-hero varieties-hero"><span class="eyebrow">{{ 'PORTUGUÊS PELO MUNDO' if lang == 'pt' else 'LE PORTUGAIS DANS LE MONDE' }}</span><h1>{{ ui.varieties_title }}</h1><p>{{ ui.varieties_intro }}</p><div class="variety-flags" aria-hidden="true"><span>🇧🇷</span><span>↔</span><span>🇵🇹</span></div></section>
+<p class="guide-context">{{ 'As frases abaixo mostram usos frequentes, não regras para todas as pessoas de um país. O áudio do texto em português usa voz brasileira; os exemplos de Portugal aparecem por escrito.' if lang == 'pt' else 'Les phrases ci-dessous illustrent des usages fréquents, sans représenter tous les locuteurs d’un pays. L’audio portugais utilise une voix brésilienne ; les exemples du Portugal sont présentés à l’écrit.' }}</p>
+<div class="variety-list">
+  {% for topic in topics %}
+  <section class="variety-card" id="{{ topic.slug }}">
+    <div class="variety-card-head"><span class="variety-icon" aria-hidden="true">{{ topic.icon }}</span><div><span class="eyebrow">{{ '%02d' % loop.index }} / {{ '%02d' % topics|length }}</span><h2>{{ topic['title_' ~ lang] }}</h2></div></div>
+    {{ bilingual_text('variedades', topic.slug, topic.text_pt, topic.text_fr) }}
+    {% if topic.pairs %}
+    <div class="variety-table-wrap"><table class="variety-table"><thead><tr><th scope="col">🇧🇷 {{ 'Brasil' if lang == 'pt' else 'Brésil' }}</th><th scope="col">🇵🇹 Portugal</th><th scope="col">🇫🇷 Français</th></tr></thead><tbody>{% for pair in topic.pairs %}<tr><td lang="pt-BR">{{ pair[0] }}</td><td lang="pt-PT">{{ pair[1] }}</td><td lang="fr">{{ pair[2] }}</td></tr>{% endfor %}</tbody></table></div>
+    {% endif %}
+    <a class="guide-source" href="{{ sources[topic.source] }}" target="_blank" rel="noopener noreferrer">{{ ui.source_label }} ↗</a>
+  </section>
+  {% endfor %}
+</div>
+{{ player() }}
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/guide-audio.js') }}" defer></script>{% endblock %}

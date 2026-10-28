@@ -21,6 +21,20 @@ vídeos locais e silenciosos explicam regiões, relevo e bacias hidrográficas;
 cada um tem transcrição em português e francês. O mapa e os vídeos são
 servidos localmente, sem depender de uma API externa durante a visita.
 
+Três guias adicionais estão disponíveis no menu:
+
+- **Dados** (`/dados`): PIB, trabalho, educação e IDH, com ano de referência e
+  link para a fonte em cada indicador.
+- **Brasil × Portugal** (`/variedades`): vocabulário, construções, tratamento
+  e pronúncia, com exemplos comparados.
+- **História** (`/historia`): linha do tempo da Primeira República à
+  redemocratização, com contexto anterior a 1889.
+
+Cada bloco desses guias tem texto em português, tradução francesa e botões
+para ouvir nas duas línguas. O áudio usa gTTS com cache por conteúdo; se o
+servidor de síntese estiver indisponível, o navegador pode tentar sua própria
+síntese de voz.
+
 Os agrupamentos regionais e as capitais seguem o [IBGE Educa](https://educa.ibge.gov.br/jovens/conheca-o-brasil/territorio/19637-divisao-territorial.html).
 Os contornos simplificados vêm do conjunto [br-geojson (CC0)](https://github.com/henriquemalvar/br-geojson),
 derivado das malhas do IBGE. `data/estados.geojson` guarda a cópia usada para
@@ -88,9 +102,11 @@ static/js/progress.js   # progresso local das leituras
 data/enriquecimento.py  # extensões bilíngues das leituras curtas
 data/geografia.py       # regiões, estados, capitais e roteiros bilíngues
 data/estados.geojson    # contornos simplificados dos estados (CC0)
+data/guias.py           # indicadores, variedades, história e fontes
 scripts/build_geography_map.py    # gera o SVG navegável do mapa
 scripts/build_geography_videos.py # gera três vídeos didáticos locais
 static/js/geografia.js  # interação do mapa e desafio
+static/js/guide-audio.js # áudio dos novos guias em PT/FR
 static/video/           # vídeos e capas locais
 requirements.txt        # dependências
 ```
