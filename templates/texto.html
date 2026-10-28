@@ -5,8 +5,8 @@
 {% block content %}
 <a class="back" href="{{ url_for('index') }}">← {{ ui.back }}</a>
 
-<article class="texto">
-  <img class="texto-hero" src="{{ url_for('capa', slug=texto.slug) }}" alt="{{ texto.titulo_pt }}">
+<article class="texto" data-lesson="{{ texto.slug }}">
+  <img class="texto-hero" src="{{ url_for('static', filename='img/amazonia.webp') if texto.slug == 'floresta-amazonica' else url_for('capa', slug=texto.slug) }}" alt="{{ texto.titulo_pt }}">
   <div class="texto-header-body">
     <div class="card-meta">
       <span class="badge badge-cat">{{ get_cat(texto.categoria) }}</span>
@@ -17,6 +17,7 @@
     <div class="lesson-byline">
       <span>📖 {{ get_nivel(texto.nivel) }}</span>
       <span>{{ sentences|length }} {{ 'frases para explorar' if lang == 'pt' else 'phrases à découvrir' }}</span>
+      <span>◷ {{ ((texto.texto_pt.split()|length + 179) // 180) }} {{ ui.reading_time }}</span>
     </div>
   </div>
 
@@ -89,14 +90,17 @@
         <button type="reset" class="btn btn-outline quiz-reset">{{ ui.quiz_retry }}</button>
       </div>
       <p class="quiz-result" role="status" aria-live="polite"></p>
+      <p class="quiz-best" data-best-score></p>
       <script type="application/json" class="quiz-data">{{ texto.quiz | tojson }}</script>
     </form>
   </section>
   {% endif %}
+  <div class="finish-lesson"><div><strong>{{ 'Terminou a leitura?' if lang == 'pt' else 'Lecture terminée ?' }}</strong><p>{{ 'Marque esta lição e acompanhe seu percurso na biblioteca.' if lang == 'pt' else 'Marquez cette leçon pour suivre votre parcours dans la bibliothèque.' }}</p></div><button class="btn btn-primary" type="button" data-mark-complete data-label-default="{{ ui.mark_complete }}" data-label-done="{{ ui.marked_complete }}">{{ ui.mark_complete }}</button></div>
   </div>
 </article>
 {% endblock %}
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/quiz.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/progress.js') }}" defer></script>
 {% endblock %}

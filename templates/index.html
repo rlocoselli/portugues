@@ -4,12 +4,34 @@
 
 {% block content %}
 <section class="hero">
-  <p class="hero-kicker">🇧🇷 {{ ui.site_title }} · PORTUGUÊS EM CADA HISTÓRIA</p>
+  <p class="hero-kicker">{{ ui.site_title }} · {{ 'PORTUGUÊS EM CADA HISTÓRIA' if lang == 'pt' else 'LE PORTUGAIS AU FIL DES HISTOIRES' }}</p>
   <h1>{{ ui.hero_title }}</h1>
   <p>{{ ui.hero_subtitle }}</p>
+  <a class="btn hero-button" href="#explorar">{{ ui.hero_action }} <span aria-hidden="true">↗</span></a>
 </section>
 
-<section class="filters card">
+<section class="study-intro" aria-label="{{ ui.how_title }}">
+  <div class="study-intro-heading"><span class="eyebrow">{{ 'SEU PERCURSO' if lang == 'pt' else 'VOTRE PARCOURS' }}</span><h2>{{ ui.how_title }}</h2></div>
+  <div class="study-steps">
+    <div><span class="step-number">01</span><h3>{{ ui.how_read }}</h3><p>{{ ui.how_read_body }}</p></div>
+    <div><span class="step-number">02</span><h3>{{ ui.how_discover }}</h3><p>{{ ui.how_discover_body }}</p></div>
+    <div><span class="step-number">03</span><h3>{{ ui.how_practice }}</h3><p>{{ ui.how_practice_body }}</p></div>
+  </div>
+</section>
+
+<section class="home-geo-promo">
+  <div><span class="eyebrow">{{ 'NOVO · MAPA INTERATIVO' if lang == 'pt' else 'NOUVEAU · CARTE INTERACTIVE' }}</span><h2>{{ 'Descubra o Brasil no mapa' if lang == 'pt' else 'Découvrez le Brésil sur la carte' }}</h2><p>{{ 'Explore estados, capitais e regiões. Depois, assista a três vídeos curtos sobre relevo, rios e as paisagens brasileiras.' if lang == 'pt' else 'Explorez les États, les capitales et les régions. Regardez ensuite trois courtes vidéos sur le relief, les fleuves et les paysages brésiliens.' }}</p><a class="btn btn-primary" href="{{ url_for('geografia') }}">{{ 'Abrir Geografia' if lang == 'pt' else 'Ouvrir Géographie' }} <span aria-hidden="true">→</span></a></div>
+  <div class="home-geo-art" aria-hidden="true"><span>🧭</span><strong>5</strong><small>{{ 'regiões' if lang == 'pt' else 'régions' }}</small></div>
+</section>
+
+<section class="video-feature">
+  <div class="video-copy"><span class="eyebrow">{{ 'UM CONVITE PARA VIAJAR' if lang == 'pt' else 'UNE INVITATION AU VOYAGE' }}</span><h2>{{ ui.video_title }}</h2><p>{{ ui.video_body }}</p><p class="video-caption">{{ 'Vídeo ilustrado · 12 segundos · sem áudio' if lang == 'pt' else 'Vidéo illustrée · 12 secondes · sans audio' }}</p></div>
+  <video controls muted loop playsinline preload="none" poster="{{ url_for('static', filename='img/amazonia.webp') }}" aria-label="{{ ui.video_title }}">
+    <source src="{{ url_for('static', filename='img/viagem-brasil.mp4') }}" type="video/mp4">
+  </video>
+</section>
+
+<section id="explorar" class="filters card">
   <form method="get" action="{{ url_for('index') }}">
     <input type="text" name="busca" class="input-busca" placeholder="{{ ui.search_placeholder }}" value="{{ busca }}">
     <select name="categoria" class="select">
@@ -28,14 +50,14 @@
   </form>
 </section>
 
-<p class="count"><span class="count-number">{{ textos|length }}</span> {{ ui.texts_count }} <span class="count-note">· escolha uma história e comece a explorar</span></p>
+<div class="catalog-heading"><div><span class="eyebrow">{{ 'BIBLIOTECA' if lang == 'pt' else 'BIBLIOTHÈQUE' }}</span><h2>{{ 'Escolha sua próxima leitura' if lang == 'pt' else 'Choisissez votre prochaine lecture' }}</h2><p class="count"><span class="count-number">{{ textos|length }}</span> {{ ui.texts_count }}</p></div><p class="progress-summary"><strong data-completed-count>0</strong> {{ ui.progress_label }}</p></div>
 
 {% if textos %}
 <div class="cards">
   {% for t in textos %}
-  <article class="card">
+  <article class="card lesson-card" data-lesson-card="{{ t.slug }}">
     <a class="card-img-link" href="{{ url_for('texto', slug=t.slug) }}">
-      <img class="card-img" src="{{ url_for('capa', slug=t.slug) }}" alt="{{ t.titulo_pt }}" loading="lazy">
+      <img class="card-img" src="{{ url_for('static', filename='img/amazonia.webp') if t.slug == 'floresta-amazonica' else url_for('capa', slug=t.slug) }}" alt="{{ t.titulo_pt }}" loading="lazy">
     </a>
     <div class="card-body">
       <div class="card-meta">
@@ -44,6 +66,7 @@
       </div>
       <h2 class="card-title">{{ t.titulo_pt }}</h2>
       <p class="card-sub">{{ t.titulo_fr }}</p>
+      <p class="lesson-duration">◷ {{ ((t.texto_pt.split()|length + 179) // 180) }} {{ ui.reading_time }} · {{ t.quiz|length }} {{ ui.quiz_questions }}</p>
       <p class="card-excerpt">{{ t.texto_pt[:190] }}…</p>
       <a class="btn btn-outline" href="{{ url_for('texto', slug=t.slug) }}">{{ ui.read }} <span aria-hidden="true">→</span></a>
     </div>
@@ -54,3 +77,5 @@
 <p class="empty">{{ ui.no_results }}</p>
 {% endif %}
 {% endblock %}
+
+{% block scripts %}<script src="{{ url_for('static', filename='js/progress.js') }}" defer></script>{% endblock %}

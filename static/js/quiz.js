@@ -8,20 +8,25 @@
     score: 'Vous avez trouvé',
     of: 'sur',
     questions: 'questions',
-    missing: 'Répondez à toutes les questions avant de vérifier.'
+    missing: 'Répondez à toutes les questions avant de vérifier.',
+    best: 'Meilleur résultat sur cet appareil : '
   } : {
     correct: 'Correto!',
     wrong: 'Ainda não. Resposta certa: ',
     score: 'Você acertou',
     of: 'de',
     questions: 'perguntas',
-    missing: 'Responda a todas as perguntas antes de conferir.'
+    missing: 'Responda a todas as perguntas antes de conferir.',
+    best: 'Melhor resultado neste aparelho: '
   };
 
   function initQuiz(root) {
     var form = root.querySelector('.quiz-form');
     var dataNode = root.querySelector('.quiz-data');
     var result = root.querySelector('.quiz-result');
+    var bestNode = root.querySelector('[data-best-score]');
+    var lesson = document.querySelector('[data-lesson]');
+    var storageKey = lesson ? 'fala-brasil-quiz-' + lesson.getAttribute('data-lesson') : null;
     if (!form || !dataNode || !result) return;
 
     var questions;
@@ -30,6 +35,14 @@
     } catch (error) {
       return;
     }
+    function showBest() {
+      if (!storageKey || !bestNode) return;
+      try {
+        var best = Number(localStorage.getItem(storageKey));
+        if (best > 0) bestNode.textContent = copy.best + best + ' / ' + questions.length;
+      } catch (error) { /* Storage is optional. */ }
+    }
+    showBest();
 
     form.addEventListener('submit', function (event) {
       event.preventDefault();
@@ -39,6 +52,8 @@
         if (!selected) {
           result.textContent = copy.missing;
           result.className = 'quiz-result is-incomplete';
+          var first = form.querySelector('input[name="question-' + i + '"]');
+          if (first) first.focus();
           return;
         }
         answers.push(Number(selected.value));
@@ -67,6 +82,13 @@
       }
       result.textContent = copy.score + ' ' + score + ' ' + copy.of + ' ' + questions.length + ' ' + copy.questions + '.';
       result.className = 'quiz-result ' + (score === questions.length ? 'is-perfect' : 'is-scored');
+      if (storageKey) {
+        try {
+          var previous = Number(localStorage.getItem(storageKey)) || 0;
+          if (score > previous) localStorage.setItem(storageKey, String(score));
+          showBest();
+        } catch (error) { /* Storage is optional. */ }
+      }
     });
 
     form.addEventListener('reset', function () {

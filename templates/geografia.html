@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}{{ ui.nav_geography }} — {{ ui.site_title }}{% endblock %}
+
+{% block content %}
+<section class="geo-hero">
+  <div>
+    <span class="eyebrow">{{ 'EXPLORE O BRASIL' if lang == 'pt' else 'EXPLOREZ LE BRÉSIL' }}</span>
+    <h1>{{ ui.geo_title }}</h1>
+    <p>{{ ui.geo_intro }}</p>
+    <a class="btn geo-hero-link" href="#mapa">{{ 'Explorar o mapa' if lang == 'pt' else 'Explorer la carte' }} <span aria-hidden="true">↓</span></a>
+  </div>
+  <div class="geo-hero-stats" aria-label="{{ 'Resumo' if lang == 'pt' else 'Résumé' }}">
+    <div><strong>5</strong><span>{{ 'regiões' if lang == 'pt' else 'régions' }}</span></div>
+    <div><strong>26 + 1</strong><span>{{ 'estados + DF' if lang == 'pt' else 'États + DF' }}</span></div>
+    <div><strong>3</strong><span>{{ 'vídeos' if lang == 'pt' else 'vidéos' }}</span></div>
+  </div>
+</section>
+
+<section id="mapa" class="geo-section">
+  <div class="geo-section-heading"><span class="eyebrow">{{ 'ATLAS INTERATIVO' if lang == 'pt' else 'ATLAS INTERACTIF' }}</span><h2>{{ ui.geo_map_title }}</h2><p>{{ ui.geo_map_intro }}</p></div>
+  <div class="region-filters" role="group" aria-label="{{ ui.geo_region }}">
+    <button class="region-filter is-active" type="button" data-region-filter="all" aria-pressed="true">{{ ui.geo_all_regions }}</button>
+    {% for code, region in regions.items() %}
+    <button class="region-filter" type="button" data-region-filter="{{ code }}" aria-pressed="false"><span class="region-dot" style="--dot:{{ region.color }}"></span>{{ region[lang] }}</button>
+    {% endfor %}
+  </div>
+  <div class="geo-explorer">
+    <div class="geo-map-wrap">
+      {% include "_mapa_brasil.html" %}
+      <p class="map-help">{{ 'Dica: use Tab e Enter para navegar pelo mapa.' if lang == 'pt' else 'Astuce : utilisez Tab et Entrée pour parcourir la carte.' }}</p>
+    </div>
+    <div class="geo-side">
+      <div class="geo-info-card" aria-live="polite">
+        <span class="eyebrow" data-info-eyebrow>{{ ui.geo_region }}</span>
+        <h3 data-info-title>{{ ui.geo_all_regions }}</h3>
+        <p data-info-description>{{ ui.geo_region_hint }}</p>
+        <dl class="state-facts" data-state-facts hidden>
+          <div><dt>{{ ui.geo_capital }}</dt><dd data-info-capital></dd></div>
+          <div><dt>{{ ui.geo_region }}</dt><dd data-info-region></dd></div>
+        </dl>
+      </div>
+      <label for="geo-state-select">{{ ui.geo_select_state }}</label>
+      <select id="geo-state-select" class="select geo-state-select">
+        <option value="">{{ ui.geo_select_state }}</option>
+        {% for code, region in regions.items() %}
+        <optgroup label="{{ region[lang] }}">
+          {% for state in states if state.regiao == code %}
+          <option value="{{ state.sigla }}">{{ state.nome }} ({{ state.sigla }})</option>
+          {% endfor %}
+        </optgroup>
+        {% endfor %}
+      </select>
+      <p class="geo-map-source">{{ ui.geo_source }} <a href="https://educa.ibge.gov.br/jovens/conheca-o-brasil/territorio/19637-divisao-territorial.html" target="_blank" rel="noopener noreferrer">IBGE Educa ↗</a> · <a href="https://github.com/henriquemalvar/br-geojson" target="_blank" rel="noopener noreferrer">GeoJSON (CC0) ↗</a></p>
+      <section class="geo-game" aria-labelledby="geo-game-title">
+        <div class="geo-game-icon" aria-hidden="true">🎯</div>
+        <div class="geo-game-copy"><span class="eyebrow">{{ 'APRENDA BRINCANDO' if lang == 'pt' else 'APPRENEZ EN JOUANT' }}</span><h2 id="geo-game-title">{{ ui.geo_game_title }}</h2><p>{{ ui.geo_game_intro }}</p><p class="game-prompt" data-game-prompt aria-live="polite"></p><p class="game-feedback" data-game-feedback role="status" aria-live="polite"></p></div>
+        <button type="button" class="btn btn-primary" data-game-action>{{ ui.geo_game_start }}</button>
+      </section>
+    </div>
+  </div>
+</section>
+
+<section class="geo-section" id="videos">
+  <div class="geo-section-heading"><span class="eyebrow">{{ 'ASSISTA E DESCUBRA' if lang == 'pt' else 'REGARDEZ ET DÉCOUVREZ' }}</span><h2>{{ ui.geo_videos_title }}</h2><p>{{ ui.geo_videos_intro }}</p></div>
+  <div class="geo-video-grid">
+    {% for video in videos %}
+    <article class="geo-video-card">
+      <div class="geo-video-top"><span aria-hidden="true">{{ video.icon }}</span><span>{{ video.duration }}</span></div>
+      <video controls playsinline preload="none" poster="{{ url_for('static', filename='video/' ~ video.slug ~ '.webp') }}" aria-label="{{ video['title_' ~ lang] }}">
+        <source src="{{ url_for('static', filename='video/' ~ video.slug ~ '.mp4') }}" type="video/mp4">
+      </video>
+      <div class="geo-video-body"><h3>{{ video['title_' ~ lang] }}</h3><p>{{ video['summary_' ~ lang] }}</p><details><summary>{{ ui.geo_transcript }}</summary><p>{{ video['transcript_' ~ lang] }}</p></details></div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="geo-continue"><div><span class="eyebrow">{{ 'CONTINUE A VIAGEM' if lang == 'pt' else 'POURSUIVEZ LE VOYAGE' }}</span><h2>{{ ui.geo_read_more }}</h2></div><a class="btn btn-primary" href="{{ url_for('index', categoria='geografia') }}">{{ ui.read }} <span aria-hidden="true">→</span></a></section>
+
+<script id="geo-data" type="application/json">{{ {'states': states, 'regions': regions, 'lang': lang, 'copy': {'all': ui.geo_all_regions, 'state': ui.geo_state, 'region': ui.geo_region, 'capital': ui.geo_capital, 'gameCapital': ui.geo_game_capital, 'gameRound': ui.geo_game_round, 'gameCorrect': ui.geo_game_correct, 'gameWrong': ui.geo_game_wrong, 'gameAnswer': ui.geo_game_answer, 'gameScore': ui.geo_game_score, 'gameDone': ui.geo_game_done, 'gameNext': ui.geo_game_next, 'gameRestart': ui.geo_game_restart}} | tojson }}</script>
+{% endblock %}
+
+{% block scripts %}<script src="{{ url_for('static', filename='js/geografia.js') }}" defer></script>{% endblock %}

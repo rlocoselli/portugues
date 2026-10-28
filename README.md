@@ -8,7 +8,23 @@ poesias originais em português com traduções para o francês. Cada texto incl
 - a tradução em francês;
 - áudio (texto para fala) gerado no servidor com **gTTS** (arquivos MP3, com cache em disco);
 - um pequeno vocabulário português → francês.
-- um quiz de compreensão com três perguntas e correção imediata.
+- um quiz de compreensão e vocabulário com quatro ou seis perguntas, correção imediata e melhor resultado salvo no navegador.
+
+A página inicial inclui um pequeno vídeo ilustrado sem áudio. É possível marcar
+uma leitura como concluída; o progresso fica salvo apenas no navegador usado.
+As cinco leituras mais curtas receberam passagens bilíngues adicionais em
+`data/enriquecimento.py`.
+
+A seção **Geografia** (`/geografia`) traz um mapa interativo com as 27 unidades
+da Federação, filtro por região, capitais e um desafio de cinco rodadas. Três
+vídeos locais e silenciosos explicam regiões, relevo e bacias hidrográficas;
+cada um tem transcrição em português e francês. O mapa e os vídeos são
+servidos localmente, sem depender de uma API externa durante a visita.
+
+Os agrupamentos regionais e as capitais seguem o [IBGE Educa](https://educa.ibge.gov.br/jovens/conheca-o-brasil/territorio/19637-divisao-territorial.html).
+Os contornos simplificados vêm do conjunto [br-geojson (CC0)](https://github.com/henriquemalvar/br-geojson),
+derivado das malhas do IBGE. `data/estados.geojson` guarda a cópia usada para
+gerar o SVG local.
 
 > O áudio é gerado no servidor com **gTTS** (Google Text-to-Speech), que exige
 > conexão com a internet na primeira vez que cada texto/frase/palavra é
@@ -47,6 +63,17 @@ Basta copiar um bloco existente e preencher os campos:
 Depois de editar, reinicie o servidor Flask. O novo texto aparece automaticamente
 na página inicial, nos filtros e na busca.
 
+## Regerar mapa e vídeos de geografia
+
+Os arquivos gerados já estão incluídos no projeto. Para recriá-los após mudar
+os dados ou os roteiros, instale `Pillow` e `CairoSVG` no ambiente de edição,
+além do executável `ffmpeg`, e execute:
+
+```bash
+python scripts/build_geography_map.py
+python scripts/build_geography_videos.py
+```
+
 ## Estrutura do projeto
 
 ```
@@ -57,5 +84,13 @@ templates/              # páginas HTML (base, index, textos, poesias, sobre, 40
 static/css/style.css    # estilos
 static/js/tts.js        # reprodução de áudio (player + frases/palavras clicáveis)
 static/js/quiz.js       # correção e pontuação dos quizzes de compreensão
+static/js/progress.js   # progresso local das leituras
+data/enriquecimento.py  # extensões bilíngues das leituras curtas
+data/geografia.py       # regiões, estados, capitais e roteiros bilíngues
+data/estados.geojson    # contornos simplificados dos estados (CC0)
+scripts/build_geography_map.py    # gera o SVG navegável do mapa
+scripts/build_geography_videos.py # gera três vídeos didáticos locais
+static/js/geografia.js  # interação do mapa e desafio
+static/video/           # vídeos e capas locais
 requirements.txt        # dependências
 ```

@@ -7,13 +7,20 @@ o Brasil. Os textos ficam em data/textos.py (sem banco de dados).
 import os
 import re
 import glob
+import hashlib
+import mimetypes
 
 from flask import Flask, render_template, request, redirect, url_for, session, abort, send_file, Response
 
 from data.textos import TEXTOS, CATEGORIAS, NIVEIS
+from data.enriquecimento import enrich_texts
 from data.poesias import POESIAS
+from data.geografia import REGIONS, STATES, VIDEOS
+
+enrich_texts(TEXTOS)
 
 app = Flask(__name__)
+mimetypes.add_type("image/webp", ".webp")
 app.secret_key = os.environ.get("SECRET_KEY", "aprender-portugues-brasil-2024")
 AUDIO_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "audio_cache")
 
@@ -35,6 +42,36 @@ UI = {
         "nav_home": "Início",
         "nav_about": "Sobre",
         "nav_poetry": "Poesias",
+        "nav_geography": "Geografia",
+        "geo_title": "Explore a geografia do Brasil",
+        "geo_intro": "Viaje pelas cinco regiões, descubra os estados no mapa e aprenda como relevo e rios ajudam a contar a história de cada paisagem.",
+        "geo_map_title": "Um mapa para explorar",
+        "geo_map_intro": "Selecione uma região ou toque em um estado. Você também pode usar a lista abaixo do mapa.",
+        "geo_map_label": "Mapa interativo dos estados brasileiros",
+        "geo_all_regions": "Todas as regiões",
+        "geo_state": "Estado / unidade da Federação",
+        "geo_capital": "Capital",
+        "geo_region": "Região",
+        "geo_select_state": "Escolha um estado",
+        "geo_region_hint": "Selecione uma região para conhecer seus estados.",
+        "geo_videos_title": "Geografia em movimento",
+        "geo_videos_intro": "Três vídeos curtos, com desenhos e texto em português na tela, para aprender brincando. Os vídeos não têm áudio; leia a transcrição abaixo de cada um.",
+        "geo_transcript": "Ler transcrição",
+        "geo_game_title": "Desafio: encontre o estado",
+        "geo_game_intro": "Leia a pista e encontre a unidade da Federação no mapa ou na lista. Tente acertar cinco rodadas!",
+        "geo_game_start": "Começar desafio",
+        "geo_game_next": "Próxima rodada",
+        "geo_game_restart": "Jogar novamente",
+        "geo_game_find": "Encontre",
+        "geo_game_capital": "Qual unidade da Federação tem a capital",
+        "geo_game_round": "Rodada",
+        "geo_game_correct": "Boa! Você encontrou",
+        "geo_game_wrong": "Quase! Você escolheu",
+        "geo_game_answer": "A resposta era",
+        "geo_game_score": "Pontuação",
+        "geo_game_done": "Desafio concluído!",
+        "geo_source": "Divisão regional e capitais: IBGE Educa. Contornos simplificados para fins educativos.",
+        "geo_read_more": "Continue com os textos de geografia",
         "poetry_title": "Poesias brasileiras",
         "poetry_subtitle": "Poemas originais em português, inspirados nas paisagens, nos encontros e nos muitos Brasis do cotidiano.",
         "poetry_read": "Ler poema",
@@ -46,6 +83,20 @@ UI = {
         "poetry_intro_note": "Leia os versos em voz alta e descubra a tradução quando quiser.",
         "hero_title": "Seu próximo destino: o português do Brasil",
         "hero_subtitle": "Viaje por histórias, paisagens e sabores brasileiros. Leia no seu ritmo, escute a pronúncia e descubra cada texto também em francês.",
+        "hero_action": "Começar a explorar",
+        "how_title": "Um jeito simples de aprender",
+        "how_read": "Leia com calma",
+        "how_read_body": "Comece pelo português e toque em uma frase para ouvir a pronúncia.",
+        "how_discover": "Descubra palavras",
+        "how_discover_body": "Abra a tradução quando precisar e pratique o vocabulário em voz alta.",
+        "how_practice": "Teste e continue",
+        "how_practice_body": "Responda ao quiz e acompanhe as leituras concluídas neste navegador.",
+        "video_title": "Uma viagem pelo Brasil em imagens",
+        "video_body": "Um pequeno convite visual para começar a explorar as histórias.",
+        "progress_label": "leituras concluídas",
+        "mark_complete": "Marcar como concluída",
+        "marked_complete": "Leitura concluída ✓",
+        "reading_time": "min de leitura",
         "search_placeholder": "Buscar por título ou palavra...",
         "all_categories": "Todas as categorias",
         "all_levels": "Todos os níveis",
@@ -61,7 +112,7 @@ UI = {
         "vocabulary": "Vocabulário",
         "vocab_hint": "Clique na palavra para ouvir a pronúncia.",
         "quiz_title": "Teste o que você aprendeu",
-        "quiz_intro": "Responda às três perguntas e veja quanto você lembra do texto.",
+        "quiz_intro": "Responda às perguntas de compreensão e vocabulário. Você pode tentar novamente.",
         "quiz_check": "Ver resultado",
         "quiz_retry": "Tentar novamente",
         "quiz_correct": "Correto!",
@@ -78,7 +129,7 @@ UI = {
         "no_results": "Nenhum texto encontrado.",
         "footer_note": "Textos sobre o Brasil com áudio (texto para fala).",
         "about_title": "Sobre este site",
-        "about_intro": "Este site reúne textos sobre o Brasil — natureza, história, geografia e cultura — para ajudar você a aprender português. Cada texto está disponível em português e em francês, com áudio (texto para fala) para você ouvir a pronúncia. O áudio é gerado pelo próprio navegador, então não é necessário baixar nenhum arquivo.",
+        "about_intro": "Este site reúne textos sobre o Brasil — natureza, história, geografia, cultura e ciência — para ajudar você a aprender português. Cada texto está disponível em português e em francês, com áudio (texto para fala), vocabulário e quiz. A seção Geografia também oferece um mapa interativo e vídeos curtos com transcrições bilíngues. O áudio dos textos é gerado no servidor e pode demorar um pouco na primeira reprodução.",
         "about_how_title": "Como adicionar novos textos",
         "about_how_intro": "Os textos ficam em um único arquivo, sem banco de dados. Para adicionar um novo texto, abra o arquivo data/textos.py e copie um dos blocos existentes, preenchendo os seguintes campos:",
     },
@@ -89,6 +140,36 @@ UI = {
         "nav_home": "Accueil",
         "nav_about": "À propos",
         "nav_poetry": "Poèmes",
+        "nav_geography": "Géographie",
+        "geo_title": "Explorez la géographie du Brésil",
+        "geo_intro": "Parcourez les cinq régions, découvrez les États sur la carte et voyez comment le relief et les fleuves façonnent les paysages.",
+        "geo_map_title": "Une carte à explorer",
+        "geo_map_intro": "Choisissez une région ou touchez un État. La liste sous la carte est également disponible.",
+        "geo_map_label": "Carte interactive des États brésiliens",
+        "geo_all_regions": "Toutes les régions",
+        "geo_state": "État / unité de la Fédération",
+        "geo_capital": "Capitale",
+        "geo_region": "Région",
+        "geo_select_state": "Choisissez un État",
+        "geo_region_hint": "Choisissez une région pour découvrir ses États.",
+        "geo_videos_title": "La géographie en mouvement",
+        "geo_videos_intro": "Trois courtes vidéos avec des dessins et du texte en portugais à l’écran pour apprendre en s’amusant. Elles sont sans son ; la transcription française figure sous chacune.",
+        "geo_transcript": "Lire la transcription",
+        "geo_game_title": "Défi : trouvez l’État",
+        "geo_game_intro": "Lisez l’indice et trouvez l’unité de la Fédération sur la carte ou dans la liste. Essayez cinq manches !",
+        "geo_game_start": "Commencer le défi",
+        "geo_game_next": "Manche suivante",
+        "geo_game_restart": "Rejouer",
+        "geo_game_find": "Trouvez",
+        "geo_game_capital": "Quelle unité de la Fédération a pour capitale",
+        "geo_game_round": "Manche",
+        "geo_game_correct": "Bravo ! Vous avez trouvé",
+        "geo_game_wrong": "Presque ! Vous avez choisi",
+        "geo_game_answer": "La bonne réponse était",
+        "geo_game_score": "Score",
+        "geo_game_done": "Défi terminé !",
+        "geo_source": "Régions et capitales : IBGE Educa. Contours simplifiés à des fins pédagogiques.",
+        "geo_read_more": "Poursuivez avec les textes de géographie",
         "poetry_title": "Poésie brésilienne",
         "poetry_subtitle": "Des poèmes originaux en portugais, inspirés par les paysages, les rencontres et les multiples Brésils du quotidien.",
         "poetry_read": "Lire le poème",
@@ -100,6 +181,20 @@ UI = {
         "poetry_intro_note": "Lisez les vers à voix haute et ouvrez la traduction quand vous le souhaitez.",
         "hero_title": "Prochaine destination : le portugais du Brésil",
         "hero_subtitle": "Partez à la découverte des histoires, paysages et saveurs du Brésil. Lisez à votre rythme, écoutez la prononciation et retrouvez chaque texte en français.",
+        "hero_action": "Commencer à explorer",
+        "how_title": "Une façon simple d’apprendre",
+        "how_read": "Lisez à votre rythme",
+        "how_read_body": "Commencez en portugais et touchez une phrase pour entendre la prononciation.",
+        "how_discover": "Découvrez des mots",
+        "how_discover_body": "Ouvrez la traduction au besoin et prononcez les mots à voix haute.",
+        "how_practice": "Testez et continuez",
+        "how_practice_body": "Répondez au quiz et suivez vos lectures terminées sur cet appareil.",
+        "video_title": "Un voyage au Brésil en images",
+        "video_body": "Une courte invitation visuelle à découvrir les histoires.",
+        "progress_label": "lectures terminées",
+        "mark_complete": "Marquer comme terminé",
+        "marked_complete": "Lecture terminée ✓",
+        "reading_time": "min de lecture",
         "search_placeholder": "Rechercher un titre ou un mot...",
         "all_categories": "Toutes les catégories",
         "all_levels": "Tous les niveaux",
@@ -115,7 +210,7 @@ UI = {
         "vocabulary": "Vocabulaire",
         "vocab_hint": "Cliquez sur le mot pour entendre la prononciation.",
         "quiz_title": "Vérifiez ce que vous avez appris",
-        "quiz_intro": "Répondez aux trois questions et voyez ce que vous retenez du texte.",
+        "quiz_intro": "Répondez aux questions de compréhension et de vocabulaire. Vous pouvez réessayer.",
         "quiz_check": "Voir le résultat",
         "quiz_retry": "Réessayer",
         "quiz_correct": "Bonne réponse !",
@@ -132,7 +227,7 @@ UI = {
         "no_results": "Aucun texte trouvé.",
         "footer_note": "Textes sur le Brésil avec audio (synthèse vocale).",
         "about_title": "À propos de ce site",
-        "about_intro": "Ce site rassemble des textes sur le Brésil — nature, histoire, géographie et culture — pour vous aider à apprendre le portugais. Chaque texte est disponible en portugais et en français, avec audio (synthèse vocale) pour entendre la prononciation. L'audio est généré par le navigateur lui-même : aucun fichier à télécharger.",
+        "about_intro": "Ce site rassemble des textes sur le Brésil — nature, histoire, géographie, culture et science — pour vous aider à apprendre le portugais. Chaque texte est disponible en portugais et en français, avec audio (synthèse vocale), vocabulaire et quiz. La section Géographie propose également une carte interactive et de courtes vidéos avec transcriptions bilingues. L’audio des textes est généré sur le serveur et peut prendre un moment lors de la première écoute.",
         "about_how_title": "Comment ajouter de nouveaux textes",
         "about_how_intro": "Les textes se trouvent dans un seul fichier, sans base de données. Pour ajouter un nouveau texte, ouvrez le fichier data/textos.py et copiez l'un des blocs existants, en remplissant les champs suivants :",
     },
@@ -258,7 +353,8 @@ def audio_full(slug):
     t = get_texto(slug)
     if not t:
         abort(404)
-    return _serve_audio(slug, t["texto_pt"])
+    version = hashlib.sha256(t["texto_pt"].encode("utf-8")).hexdigest()[:10]
+    return _serve_audio(f"{slug}-{version}", t["texto_pt"])
 
 
 @app.route("/audio/<slug>/frase/<int:i>.mp3")
@@ -269,7 +365,8 @@ def audio_sentence(slug, i):
     frases = split_sentences(t["texto_pt"])
     if i < 0 or i >= len(frases):
         abort(404)
-    return _serve_audio(f"{slug}-frase-{i}", frases[i])
+    version = hashlib.sha256(frases[i].encode("utf-8")).hexdigest()[:10]
+    return _serve_audio(f"{slug}-frase-{i}-{version}", frases[i])
 
 
 @app.route("/audio/<slug>/palavra/<int:i>.mp3")
@@ -312,6 +409,11 @@ def foto_rodrigo():
 @app.route("/sobre")
 def sobre():
     return render_template("sobre.html")
+
+
+@app.route("/geografia")
+def geografia():
+    return render_template("geografia.html", regions=REGIONS, states=STATES, videos=VIDEOS)
 
 
 @app.route("/poesias")
