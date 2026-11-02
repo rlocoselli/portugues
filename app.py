@@ -21,6 +21,7 @@ from data.gramatica import VERBOS, PRONOMES, TEMPOS, TRILHA, TOPICOS, EXERCICIOS
 from data.gramatica_licoes import LESSONS, quiz_for_lesson
 from data.historia_extra import IMAGES as HISTORY_IMAGES, HISTORY_QUIZ
 from data.arte import ARTWORKS, ART_QUIZ
+from data.exames import EXAMS, SECTION_LABELS
 
 enrich_texts(TEXTOS)
 
@@ -52,6 +53,7 @@ UI = {
         "nav_varieties": "Brasil × Portugal",
         "nav_history": "História",
         "nav_art": "Arte",
+        "nav_exams": "Exames",
         "nav_grammar": "Gramática",
         "data_title": "O Brasil em dados",
         "data_intro": "Economia, educação e desenvolvimento humano em números. Cada indicador tem um ano de referência e uma história por trás do valor.",
@@ -168,6 +170,7 @@ UI = {
         "nav_varieties": "Brésil × Portugal",
         "nav_history": "Histoire",
         "nav_art": "Art",
+        "nav_exams": "Examens",
         "nav_grammar": "Grammaire",
         "data_title": "Le Brésil en chiffres",
         "data_intro": "Économie, éducation et développement humain en chiffres. Chaque indicateur a une année de référence et une histoire derrière sa valeur.",
@@ -465,6 +468,20 @@ def dados():
 @app.route("/variedades")
 def variedades():
     return render_template("variedades.html", topics=VARIETIES, sources=SOURCES)
+
+
+@app.route("/exames")
+def exames():
+    return render_template("exames.html", exams=EXAMS)
+
+
+@app.route("/exames/<level>")
+def exame(level):
+    level = level.upper()
+    exam = EXAMS.get(level)
+    if exam is None:
+        abort(404)
+    return render_template("exame.html", level=level, exam=exam, section_labels=SECTION_LABELS)
 
 
 @app.route("/arte")

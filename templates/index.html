@@ -27,6 +27,7 @@
 <section class="home-guide-links" aria-label="{{ 'Outros caminhos para explorar' if lang == 'pt' else 'Autres pistes à explorer' }}">
   <a href="{{ url_for('dados') }}"><span class="home-guide-icon">▥</span><span><strong>{{ ui.nav_data }}</strong><small>{{ 'Economia, educação e IDH explicados' if lang == 'pt' else 'Économie, éducation et IDH expliqués' }}</small></span><b aria-hidden="true">↗</b></a>
   <a href="{{ url_for('variedades') }}"><span class="home-guide-icon">↔</span><span><strong>{{ ui.nav_varieties }}</strong><small>{{ 'Descubra palavras e jeitos de falar' if lang == 'pt' else 'Découvrez les mots et les usages' }}</small></span><b aria-hidden="true">↗</b></a>
+  <a href="{{ url_for('exames') }}"><span class="home-guide-icon">✓</span><span><strong>{{ ui.nav_exams }}</strong><small>{{ 'Pratique de A1 a B2' if lang == 'pt' else 'Entraînez-vous de A1 à B2' }}</small></span><b aria-hidden="true">↗</b></a>
   <a href="{{ url_for('arte') }}"><span class="home-guide-icon">✦</span><span><strong>{{ ui.nav_art }}</strong><small>{{ 'Obras, artistas e maneiras de olhar' if lang == 'pt' else 'Œuvres, artistes et façons de regarder' }}</small></span><b aria-hidden="true">↗</b></a>
   <a href="{{ url_for('historia') }}"><span class="home-guide-icon">◷</span><span><strong>{{ ui.nav_history }}</strong><small>{{ 'Da colonização ao Brasil contemporâneo' if lang == 'pt' else 'De la colonisation au Brésil contemporain' }}</small></span><b aria-hidden="true">↗</b></a>
 </section>

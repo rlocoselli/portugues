@@ -21,14 +21,18 @@ vídeos locais e silenciosos explicam regiões, relevo e bacias hidrográficas;
 cada um tem transcrição em português e francês. O mapa e os vídeos são
 servidos localmente, sem depender de uma API externa durante a visita.
 
-Três guias adicionais estão disponíveis no menu:
+Guias e atividades adicionais estão disponíveis no menu:
 
 - **Dados** (`/dados`): PIB, trabalho, educação e IDH, com ano de referência e
   link para a fonte em cada indicador.
 - **Brasil × Portugal** (`/variedades`): vocabulário, construções, tratamento
   e pronúncia, com exemplos comparados.
-- **História** (`/historia`): linha do tempo da Primeira República à
-  redemocratização, com contexto anterior a 1889.
+- **História** (`/historia`): linha do tempo dos povos originários ao Brasil
+  contemporâneo, com imagens creditadas e quiz.
+- **Arte** (`/arte`): obras comentadas, vocabulário e quiz.
+- **Gramática** (`/gramatica`): temas com páginas próprias, exemplos e prática.
+- **Exames** (`/exames`): atividades formativas de A1 a B2 com leitura,
+  gramática, uso da língua, escuta, fala com reconhecimento de voz, escrita livre e resultado salvo no navegador.
 
 Cada bloco desses guias tem texto em português, tradução francesa e botões
 para ouvir nas duas línguas. O áudio usa gTTS com cache por conteúdo; se o
