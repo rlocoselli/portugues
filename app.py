@@ -17,6 +17,10 @@ from data.enriquecimento import enrich_texts
 from data.poesias import POESIAS
 from data.geografia import REGIONS, STATES, VIDEOS
 from data.guias import INDICATORS, INDICATOR_GROUPS, VARIETIES, HISTORY, SOURCES, guide_audio_text
+from data.gramatica import VERBOS, PRONOMES, TEMPOS, TRILHA, TOPICOS, EXERCICIOS, FRASES
+from data.gramatica_licoes import LESSONS, quiz_for_lesson
+from data.historia_extra import IMAGES as HISTORY_IMAGES, HISTORY_QUIZ
+from data.arte import ARTWORKS, ART_QUIZ
 
 enrich_texts(TEXTOS)
 
@@ -47,12 +51,14 @@ UI = {
         "nav_data": "Dados",
         "nav_varieties": "Brasil × Portugal",
         "nav_history": "História",
+        "nav_art": "Arte",
+        "nav_grammar": "Gramática",
         "data_title": "O Brasil em dados",
         "data_intro": "Economia, educação e desenvolvimento humano em números. Cada indicador tem um ano de referência e uma história por trás do valor.",
         "varieties_title": "Uma língua, muitos jeitos de falar",
         "varieties_intro": "Compare usos comuns no Brasil e em Portugal. As diferenças são tendências, e há muita variedade dentro de cada país.",
-        "history_title": "A história republicana do Brasil",
-        "history_intro": "Uma linha do tempo para entender mudanças políticas, direitos conquistados e rupturas democráticas, sem esquecer o que veio antes de 1889.",
+        "history_title": "A história do Brasil",
+        "history_intro": "Uma linha do tempo que vai da colonização ao Brasil contemporâneo, mostrando mudanças políticas, sociais e culturais ao longo dos séculos.",
         "listen_pt": "Ouvir em português",
         "listen_fr": "Ouvir em francês",
         "audio_stop": "Parar áudio",
@@ -146,7 +152,7 @@ UI = {
         "no_results": "Nenhum texto encontrado.",
         "footer_note": "Textos sobre o Brasil com áudio (texto para fala).",
         "about_title": "Sobre este site",
-        "about_intro": "Este site reúne textos sobre o Brasil — natureza, história, geografia, cultura e ciência — para ajudar você a aprender português. Cada texto está disponível em português e em francês, com áudio, vocabulário e quiz. Há também um mapa interativo, vídeos curtos e guias bilíngues sobre indicadores, variedades do português e história republicana. O áudio é gerado no servidor e pode demorar um pouco na primeira reprodução.",
+        "about_intro": "Este site reúne textos sobre o Brasil — natureza, história, geografia, cultura e ciência — para ajudar você a aprender português. Cada texto está disponível em português e em francês, com áudio, vocabulário e quiz. Há também um mapa interativo, vídeos curtos e guias bilíngues sobre indicadores, variedades do português e a história do Brasil desde a colonização até o presente. O áudio é gerado no servidor e pode demorar um pouco na primeira reprodução.",
         "about_how_title": "Como adicionar novos textos",
         "about_how_intro": "Os textos ficam em um único arquivo, sem banco de dados. Para adicionar um novo texto, abra o arquivo data/textos.py e copie um dos blocos existentes, preenchendo os seguintes campos:",
     },
@@ -161,12 +167,14 @@ UI = {
         "nav_data": "Données",
         "nav_varieties": "Brésil × Portugal",
         "nav_history": "Histoire",
+        "nav_art": "Art",
+        "nav_grammar": "Grammaire",
         "data_title": "Le Brésil en chiffres",
         "data_intro": "Économie, éducation et développement humain en chiffres. Chaque indicateur a une année de référence et une histoire derrière sa valeur.",
         "varieties_title": "Une langue, plusieurs façons de parler",
         "varieties_intro": "Comparez des usages courants au Brésil et au Portugal. Ces différences sont des tendances ; chaque pays possède aussi sa diversité.",
-        "history_title": "L’histoire républicaine du Brésil",
-        "history_intro": "Une chronologie pour comprendre les changements politiques, les droits acquis et les ruptures démocratiques, sans oublier ce qui précède 1889.",
+        "history_title": "L’histoire du Brésil",
+        "history_intro": "Une chronologie qui va de la colonisation au Brésil contemporain, en montrant les changements politiques, sociaux et culturels à travers les siècles.",
         "listen_pt": "Écouter en portugais",
         "listen_fr": "Écouter en français",
         "audio_stop": "Arrêter l’audio",
@@ -459,9 +467,44 @@ def variedades():
     return render_template("variedades.html", topics=VARIETIES, sources=SOURCES)
 
 
+@app.route("/arte")
+def arte():
+    return render_template("arte.html", artworks=ARTWORKS, quiz=ART_QUIZ)
+
+
 @app.route("/historia")
 def historia():
-    return render_template("historia.html", periods=HISTORY, sources=SOURCES)
+    return render_template("historia.html", periods=HISTORY, sources=SOURCES, images=HISTORY_IMAGES, quiz=HISTORY_QUIZ)
+
+@app.route("/gramatica")
+def gramatica():
+    return render_template(
+        "gramatica.html",
+        verbos=VERBOS,
+        pronomes=PRONOMES,
+        tempos=TEMPOS,
+        trilha=TRILHA,
+        topicos=TOPICOS,
+        exercicios=EXERCICIOS,
+        frases=FRASES,
+    )
+
+
+@app.route("/gramatica/<slug>")
+def gramatica_assunto(slug):
+    lesson = LESSONS.get(slug)
+    if lesson is None:
+        abort(404)
+    slugs = list(LESSONS)
+    index = slugs.index(slug)
+    return render_template(
+        "gramatica_assunto.html",
+        lesson=lesson,
+        slug=slug,
+        quiz=quiz_for_lesson(lesson),
+        previous=slugs[index - 1] if index else None,
+        following=slugs[index + 1] if index < len(slugs) - 1 else None,
+    )
 
 
 @app.route("/audio/guia/<section>/<item>/<language>.mp3")
