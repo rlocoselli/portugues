@@ -60,7 +60,14 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Abra <http://127.0.0.1:5000> no navegador.
+Abra <http://127.0.0.1:8000/exames> para acessar os exames.
+
+Para executar em container, a aplicação escuta na porta interna `8000`:
+
+```bash
+docker build -t fala-brasil .
+docker run --rm -p 8000:8000 fala-brasil
+```
 
 ## Como adicionar novos textos (sem banco de dados)
 
